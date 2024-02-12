@@ -108,7 +108,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/thanhthuynh/chat-chat.git
+   git clone https://github.com/miloopark/chatchat.git
    ```
 3. Install NPM packages
    ```sh
@@ -154,7 +154,7 @@ Thanh Huynh thanh910@bu.edu
 Jiehoon Lee jiehoonn@bu.edu
 Emmeline Chung emmchung@bu.edu
 
-Project Link: [https://github.com/thanhthuynh/chat-chat](https://github.com/thanhthuynh/chat-chat)
+Project Link: [https://github.com/miloopark/chatchat](https://github.com/miloopark/chatchat)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -162,18 +162,18 @@ Project Link: [https://github.com/thanhthuynh/chat-chat](https://github.com/than
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/thanhthuynh/chat-chat.svg?style=for-the-badge
-[contributors-url]: https://github.com/thanhthuynh/chat-chat/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/thanhthuynh/chat-chat.svg?style=for-the-badge
-[forks-url]: https://github.com/thanhthuynh/chat-chat/network/members
-[stars-shield]: https://img.shields.io/github/stars/thanhthuynh/chat-chat.svg?style=for-the-badge
-[stars-url]: https://github.com/thanhthuynh/chat-chat/stargazers
-[issues-shield]: https://img.shields.io/github/issues/thanhthuynh/chat-chat.svg?style=for-the-badge
-[issues-url]: https://github.com/thanhthuynh/chat-chat/issues
-[license-shield]: https://img.shields.io/github/license/thanhthuynh/chat-chat.svg?style=for-the-badge
-[license-url]: https://github.com/thanhthuynh/chat-chat/LICENSE.md
+[contributors-shield]: https://img.shields.io/github/contributors/miloopark/chatchat.svg?style=for-the-badge
+[contributors-url]: https://github.com/miloopark/chatchat/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/miloopark/chatchat.svg?style=for-the-badge
+[forks-url]: https://github.com/miloopark/chatchat/network/members
+[stars-shield]: https://img.shields.io/github/stars/miloopark/chatchat.svg?style=for-the-badge
+[stars-url]: https://github.com/miloopark/chatchat/stargazers
+[issues-shield]: https://img.shields.io/github/issues/miloopark/chatchat.svg?style=for-the-badge
+[issues-url]: https://github.com/miloopark/chatchat/issues
+[license-shield]: https://img.shields.io/github/license/miloopark/chatchat.svg?style=for-the-badge
+[license-url]: https://github.com/miloopark/chatchat/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/thanhthuynh
+[linkedin-url]: https://linkedin.com/in/miloopark
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
