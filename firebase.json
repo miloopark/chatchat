@@ -7,7 +7,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "src",
+    "site": "chatchat-ce029",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
