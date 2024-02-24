@@ -41,7 +41,7 @@ const ChatBox: React.FC = () => {
           rows={4}
           cols={50}
         />
-        <button onClick={handleSendRequest}>Send</button>
+        <button onClick={handleSendRequest}>Send M</button>
       </div>
     </div>
   );
