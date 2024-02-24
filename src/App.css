@@ -5,6 +5,62 @@
   text-align: center;
 }
 
+.chat-title {
+  text-align: left; 
+  margin-top: 0; 
+  padding: 20px; 
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chatbox {
+  position: absolute;
+  right: 25%;
+  bottom: 10%; 
+}
+
+.input-send-container {
+  display: flex;
+  gap: 10px; /* Space between the textarea and the button */
+  justify-content: center; /* Center the input and button horizontally */
+}
+
+.input-text-box {
+  flex-grow: 1; 
+  resize: none; 
+  height: 100px; 
+  width: 100%; 
+  padding: 8px; 
+}
+
+.response-box {
+  position: absolute;
+  top: -400px; /* Adjust this value to move the box up */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the box horizontally */
+  width: 100%;
+  height: 200%;
+  min-height: 150px;
+  padding: 20px;
+  background-color: #256d8e;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  overflow-y: auto;
+  /* Remove margin-top if previously added */
+}
+
+
+.chat-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally in the container */
+  gap: 20px; /* Adds space between the response box and the input-send-container */
+  margin-top: 20px; /* Adds some space at the top */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -40,3 +96,4 @@
 .read-the-docs {
   color: #888;
 }
+
