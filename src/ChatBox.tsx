@@ -1,5 +1,6 @@
 // ChatBox.tsx
 import React, { useState } from 'react';
+import fetchGptResponse from './services/fetchResponse';
 
 const ChatBox: React.FC = () => {
   const [inputText, setInputText] = useState<string>('');
@@ -10,26 +11,20 @@ const ChatBox: React.FC = () => {
   };
 
   const handleSendRequest = async () => {
-    // Placeholder for calling ChatGPT API with inputText
-    // Implement your API call here
-    try {
-      const apiResponse = await fetch('your-chatgpt-api-endpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input: inputText }),
-      });
+    if (!inputText.trim()) return; // Early return if inputText is empty or only whitespace
+    setResponse("Fetching response..."); // Optional: set a loading state
 
-      const responseData = await apiResponse.json();
-      setResponse(responseData.output);
+    try {
+      const apiResponse = await fetchGptResponse(inputText);
+      setResponse(apiResponse); // Update the state with the response from the fetchGptResponse function
     } catch (error) {
       console.error('Error calling ChatGPT API:', error);
+      setResponse("Failed to fetch response."); // Display an error message
     }
   };
 
   return (
-    <div className="chat-container"> {/* Updated class name for overall container */}
+    <div className="chat-container">
       <div className="response-box">
         {response ? response : "Awaiting response..."}
       </div>
@@ -41,11 +36,10 @@ const ChatBox: React.FC = () => {
           rows={4}
           cols={50}
         />
-        <button onClick={handleSendRequest}>Send M</button>
+        <button onClick={handleSendRequest}>Send</button> {/* Corrected the onClick handler to use handleSendRequest */}
       </div>
     </div>
   );
 };
 
 export default ChatBox;
-
