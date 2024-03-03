@@ -1,99 +1,63 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.chat-title {
-  text-align: left; 
-  margin-top: 0; 
-  padding: 20px; 
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.chatbox {
-  position: absolute;
-  right: 25%;
-  bottom: 10%; 
-}
-
-.input-send-container {
-  display: flex;
-  gap: 10px; /* Space between the textarea and the button */
-  justify-content: center; /* Center the input and button horizontally */
-}
-
-.input-text-box {
-  flex-grow: 1; 
-  resize: none; 
-  height: 100px; 
-  width: 100%; 
-  padding: 8px; 
-}
-
-.response-box {
-  position: absolute;
-  top: -400px; /* Adjust this value to move the box up */
-  left: 50%;
-  transform: translateX(-50%); /* Centers the box horizontally */
+html, body, #root {
+  height: 100%;
   width: 100%;
-  height: 200%;
-  min-height: 150px;
-  padding: 20px;
-  background-color: #256d8e;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  overflow-y: auto;
-  /* Remove margin-top if previously added */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevents scrollbars if not needed */
 }
 
-
-.chat-container {
-  position: relative;
+.app-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally in the container */
-  gap: 20px; /* Adds space between the response box and the input-send-container */
-  margin-top: 20px; /* Adds some space at the top */
+  align-items: stretch;
+  height: 100%; /* Takes full viewport height */
+  width: 100%; /* Takes full viewport width */
+  margin: 0; /* Removes any default margin */
+  padding: 0; /* Removes any default padding */
+  overflow: hidden; /* Prevents scrollbars if not needed */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.chat-title { /* Styles the title of the chat application */
+  font-size: 35px;
+  position: absolute;
+  top: 0;
+  left: 0.8rem;
+  z-index: 10;
+  color: #fd00ba;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.chat-layout { /* Wraps the chatbox and chat history */
+  margin-top: 80px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: flex-start;
+  gap: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.chatbox { /* Styling and Layout of the chat box component within the flex container */
+  flex-grow: 1; 
+  margin-left: 20px; 
+  align-self: center;
 }
 
-.card {
-  padding: 2em;
+.chat-history { /* Positioning of Chat History within the flex container */
+  flex: 0 0 250px;
+  width: 20%;
+  max-width: 300px;
+  flex-shrink: 0;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  border-right: 2px solid #ccc;
 }
 
-.read-the-docs {
-  color: #888;
+.chat-box-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 30px;
 }
+
 
