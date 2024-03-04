@@ -1,8 +1,12 @@
-// ChatBox.tsx
 import React, { useState } from 'react';
+import './ChatBox.css'; 
 import fetchGptResponse from './services/fetchResponse';
 
-const ChatBox: React.FC = () => {
+interface ChatBoxProps {
+  onMessageSend: (input: string, response: string) => void;
+}
+
+const ChatBox: React.FC<ChatBoxProps> = ({ onMessageSend }) => {
   const [inputText, setInputText] = useState<string>('');
   const [response, setResponse] = useState<string | null>(null);
 
@@ -12,11 +16,16 @@ const ChatBox: React.FC = () => {
 
   const handleSendRequest = async () => {
     if (!inputText.trim()) return; // Early return if inputText is empty or only whitespace
+    
     setResponse("Fetching response..."); // Optional: set a loading state
-
     try {
       const apiResponse = await fetchGptResponse(inputText);
-      setResponse(apiResponse); // Update the state with the response from the fetchGptResponse function
+      if (apiResponse !== null) {
+        setResponse(apiResponse); // Update the state with the response
+        onMessageSend(inputText, apiResponse);
+      } else {
+        setResponse("Received no response from the API."); // Handle the null case
+      }
     } catch (error) {
       console.error('Error calling ChatGPT API:', error);
       setResponse("Failed to fetch response."); // Display an error message
@@ -24,7 +33,7 @@ const ChatBox: React.FC = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-box-container"> 
       <div className="response-box">
         {response ? response : "Awaiting response..."}
       </div>
@@ -34,12 +43,12 @@ const ChatBox: React.FC = () => {
           value={inputText}
           onChange={handleInputChange}
           rows={4}
-          cols={50}
         />
-        <button onClick={handleSendRequest}>Send</button> {/* Corrected the onClick handler to use handleSendRequest */}
+        <button className="send-button" onClick={handleSendRequest}>Send</button>
       </div>
     </div>
   );
 };
+
 
 export default ChatBox;
