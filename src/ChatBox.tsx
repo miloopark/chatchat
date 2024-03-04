@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ChatBox.css'; 
 import fetchGptResponse from './services/fetchResponse';
+import annyang from 'annyang'; 
 
 interface ChatBoxProps {
   onMessageSend: (input: string, response: string) => void;
@@ -9,6 +10,31 @@ interface ChatBoxProps {
 const ChatBox: React.FC<ChatBoxProps> = ({ onMessageSend }) => {
   const [inputText, setInputText] = useState<string>('');
   const [response, setResponse] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (annyang) {
+      const commands: { [command: string]: Function } = {
+        '*text': (text: string) => {
+          setInputText(text);
+        },
+      };
+
+      annyang.addCommands(commands);
+
+      if (isListening) {
+        annyang.start({ autoRestart: true, continuous: false });
+      } else {
+        annyang.abort();
+      }
+
+      return () => {
+        if (annyang) {
+          annyang.abort();
+        }
+      };
+    }
+  }, [isListening]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
@@ -32,8 +58,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({ onMessageSend }) => {
     }
   };
 
+  const toggleListening = () => {
+    setIsListening(!isListening);
+  };
+
   return (
-    <div className="chat-box-container"> 
+    <div className="chat-box-container">
       <div className="response-box">
         {response ? response : "Awaiting response..."}
       </div>
@@ -44,6 +74,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ onMessageSend }) => {
           onChange={handleInputChange}
           rows={4}
         />
+        <button className="listen-button" onClick={toggleListening}>
+          {isListening ? 'Stop Listening' : 'Start Listening'}
+        </button>
         <button className="send-button" onClick={handleSendRequest}>Send</button>
       </div>
     </div>

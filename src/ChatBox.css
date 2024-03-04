@@ -39,3 +39,11 @@
     overflow-y: auto; /* Allows scrolling */
   }
   
+  .listen-button {
+    position: absolute;
+    right: 90px; /* Adjust based on your layout */
+    bottom: 10px; /* Align with the send button */
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
