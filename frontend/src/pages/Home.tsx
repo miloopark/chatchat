@@ -1,6 +1,6 @@
-//import React from 'react';
+import React from 'react';
 
-const Login = () => {
+const Home = () => {
     return (
         <div>
             <h1>Empty Page</h1>
@@ -9,4 +9,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Home;
