@@ -1,4 +1,3 @@
-// Main.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typewriter } from 'react-simple-typewriter';
