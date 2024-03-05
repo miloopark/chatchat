@@ -60,4 +60,60 @@ html, body, #root {
   margin-right: 30px;
 }
 
+.svg-container {
+  height: 100vh; /* Full view height, change if you want the container to be taller */
+  overflow-y: auto; /* Allows vertical scrolling within this container */
+}
 
+.top-svg {
+  position: relative;
+  min-height: 100%; /* Ensure the container is at least the height of the viewport */
+}
+
+.backdrop {
+  width: 100%; 
+  height: auto; /* Auto height for responsive height based on the width */
+  display: block;
+}
+
+.logo {
+  position: absolute;
+  left: 20px; 
+  width: 100px; 
+  height: auto; 
+  z-index: 10; 
+  scale: 50%;
+}
+
+.landingtext {
+  position: absolute;
+  font-family: 'Geist', sans-serif;
+  top: 59%; /* Adjust as needed */
+  left: 59%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  scale: 140%;
+  color: black; /* Adjust the text color as needed */
+}
+
+.subtitle {
+  top: 50%; /* Adjust as needed */
+  text-align: center;
+  color: grey;
+
+}
+
+.get-started-button {
+  padding: 10px 20px;
+  background-color: #CB9FF6; /* Adjust button color as needed */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px; /* Space between text and button */
+  transition: background-color 0.3s ease;
+}
+
+.get-started-button:hover {
+  background-color: #c183fc; /* Darker shade for hover effect */
+}

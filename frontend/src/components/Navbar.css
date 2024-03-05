@@ -1,0 +1,43 @@
+/* Navbar.css */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
+  }
+  
+  .logo {
+    margin-left: 0%;
+    scale: 40%;
+    top: 0;
+  }
+  
+  /* Centering the menu in the middle of the page */
+  .menu {
+    position: absolute;
+    left: 52%;
+    top: 120%;
+    transform: translateX(-50%);
+    display: flex;
+    list-style: none;
+    background: transparent;
+    padding: 0;
+    scale: 120%;
+  }
+  
+  .menu-link {
+    color: black; /* Adjust the color as needed */
+    text-decoration: none;
+    padding: 10px 15px;
+    font-family: 'GeistSans', sans-serif; /* Apply the Geist font family */
+  }
+  
+  .menu-link:hover {
+    background-color: transparent; /* Ensures no background change on hover */
+  }
+  
