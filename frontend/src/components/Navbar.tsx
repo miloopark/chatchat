@@ -1,7 +1,6 @@
-// Navbar.tsx or Navbar.js
 import React from 'react';
 import logo from '../assets/logo.svg';
-import './Navbar.css'; // Your CSS file for styles
+import './Navbar.css'; 
 
 const Navbar = () => {
   return (

@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar';
 import '../App.css';
 
 const Login = () => {
+    const navigate = useNavigate(); /*for later navs*/
+
     return (
         <div className="svg-container">
             <Navbar />
