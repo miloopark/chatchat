@@ -25,10 +25,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#git-convention">Git Commit Convention for Development</a>
-      <ul>
-    </li>  
+    <li> <a href="#git-commit-convention">Git Commit Convention</a> </li>
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
