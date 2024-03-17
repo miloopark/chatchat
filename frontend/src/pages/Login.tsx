@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import landingbackdrop from '../assets/landingbackdrop.svg';
+import { signInWithGoogle } from '../services/authService';
 import Navbar from '../components/Navbar';
 import '../App.css';
 
@@ -20,7 +21,7 @@ const Login = () => {
             <img src={landingbackdrop} alt="Main Background" className="backdrop" />
             <div className="login-container">
                 <h1>Log In</h1>
-                <button className="google-login-button">
+                <button onClick={signInWithGoogle} className="google-login-button">
                     Continue with Google
                 </button>
                 <div className="divider">or</div>
@@ -52,8 +53,8 @@ const Login = () => {
                     </button>
                 </form>
                 <button onClick={() => navigate('/signup')} className="create-account-button">
-                        Sign Up
-                    </button>
+                    Sign Up
+                </button>
             </div>
         </div>
     );

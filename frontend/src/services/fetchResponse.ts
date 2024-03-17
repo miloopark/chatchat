@@ -1,4 +1,13 @@
+import { auth } from './firebaseConfig';
+
 const fetchGptResponse = async (promptText: string): Promise<string> => {
+  
+  // Check if currentUser exists before trying to call getIdToken
+  if (!auth.currentUser) {
+    throw new Error('User not authenticated');
+  }
+  
+  const token = await auth.currentUser.getIdToken();
   const backendUrl = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:3000/api/generate-text' // Development URL
     : '/api/generate-text'; // Production URL (assuming same host and port)
@@ -7,6 +16,7 @@ const fetchGptResponse = async (promptText: string): Promise<string> => {
     const response = await fetch(backendUrl, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ prompt: promptText }),
