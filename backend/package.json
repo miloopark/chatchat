@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "scripts": {
+    "dev": "npx ts-node src/server.ts",
     "lint": "eslint --ext .js,.ts . --fix",
     "build": "tsc",
     "build:watch": "tsc --watch",
