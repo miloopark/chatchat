@@ -15,13 +15,18 @@ const Login = () => {
         e.preventDefault();
     };
 
+    // Function to handle Google Sign-In
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(() => navigate('/home')); // Assuming your Home route is '/home'
+    };
+
     return (
         <div className="svg-container">
             <Navbar />
             <img src={landingbackdrop} alt="Main Background" className="backdrop" />
             <div className="login-container">
                 <h1>Log In</h1>
-                <button onClick={signInWithGoogle} className="google-login-button">
+                <button onClick={handleGoogleSignIn} className="google-login-button">
                     Continue with Google
                 </button>
                 <div className="divider">or</div>
