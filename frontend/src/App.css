@@ -73,6 +73,7 @@ html, body, #root {
 .backdrop {
   width: 100%; 
   height: auto; /* Auto height for responsive height based on the width */
+  overflow-y: auto;
   display: block;
 }
 
@@ -93,7 +94,7 @@ html, body, #root {
   transform: translate(-50%, -50%);
   text-align: center;
   scale: 140%;
-  color: black; /* Adjust the text color as needed */
+  color: black; 
 }
 
 .subtitle {
@@ -105,7 +106,7 @@ html, body, #root {
 
 .get-started-button {
   padding: 10px 20px;
-  background-color: #CB9FF6; /* Adjust button color as needed */
+  background-color: #CB9FF6; 
   color: white;
   border: none;
   border-radius: 20px;
@@ -116,4 +117,86 @@ html, body, #root {
 
 .get-started-button:hover {
   background-color: #c183fc; /* Darker shade for hover effect */
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background: transparent; 
+  border-radius: 15px; /* Rounded corners */
+  width: 400px;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Geist', sans-serif;
+}
+
+.google-login-button {
+  background: #4285F4;
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  font-size: 16px; /* Match font size with the design */
+  font-family: 'Geist', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* For space between icon and text */
+  width: 100%; /* Match width with input fields */
+}
+
+.divider span {
+  background: #f0f0f0; /* Same as the login container background */
+  padding: 0 10px;
+}
+
+/* Input field styling */
+input[type="email"],
+input[type="firstname"],
+input[type="lastname"],
+input[type="number"],
+input[type="password"] {
+  width: calc(100% - 24px);
+  margin: 10px 0;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 16px; 
+}
+
+/* Checkbox and label styling */
+label {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 14px; 
+  font-family: 'Geist', sans-serif;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.create-account-button {
+  background: #5c6bc0; 
+  font-family: 'Geist', sans-serif;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+}
+
+.create-account-button:disabled {
+  background: #9fa8da;
 }
