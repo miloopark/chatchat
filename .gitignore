@@ -11,7 +11,7 @@ frontend/node_modules
 dist
 dist-ssr
 *.local
-frontend/src/.env
+frontend/.env
 
 # Caches
 .firebase

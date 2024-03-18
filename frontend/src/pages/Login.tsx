@@ -17,8 +17,27 @@ const Login = () => {
 
     // Function to handle Google Sign-In
     const handleGoogleSignIn = () => {
-        signInWithGoogle(() => navigate('/home')); // Assuming your Home route is '/home'
+        signInWithGoogle(async (idToken) => {
+            try {
+                // Example API call to your backend
+                const response = await fetch('/api/store-user', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${idToken}`
+                    },
+                });                  
+                if (response.ok) {
+                    navigate('/home'); // Navigate to home on successful storage
+                } else {
+                    console.error('Failed to store user data');
+                }
+            } catch (error) {
+                console.error('Error storing user data:', error);
+            }
+        });
     };
+    
 
     return (
         <div className="svg-container">
