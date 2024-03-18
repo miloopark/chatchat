@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ChatBox.css'; 
-import fetchGptResponse from './services/fetchGPTResponse';
+import fetchGptResponse from './services/fetchResponse';
 import annyang from 'annyang'; 
 
 interface ChatBoxProps {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import landingbackdrop from '../assets/landingbackdrop.svg';
-import { signInWithGoogle } from '../services/authService';
+import { signInWithGoogle, signInWithEmailPassword, sendUserDataToBackend } from '../services/authService'; // Removed signUpWithEmailPassword, sendUserDataToBackend as not used here
 import Navbar from '../components/Navbar';
 import '../App.css';
 
@@ -11,11 +11,18 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [agreed, setAgreed] = useState(false);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+        try {
+          // Updated to reflect corrected authService function
+          await signInWithEmailPassword(email, password);
+          console.log("Successfully logged in");
+          navigate('/home'); // Navigate upon successful login
+        } catch (error) {
+          console.error("Login failed: ", error);
+        }
     };
-
-    // Function to handle Google Sign-In
+    
     const handleGoogleSignIn = () => {
         signInWithGoogle(async (idToken) => {
             try {
@@ -37,8 +44,8 @@ const Login = () => {
             }
         });
     };
+      
     
-
     return (
         <div className="svg-container">
             <Navbar />
