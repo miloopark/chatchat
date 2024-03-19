@@ -5,7 +5,7 @@ import "dotenv/config";
 const router = express.Router();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY as string,
+  apiKey: process.env.VITE_OPENAI_API_KEY as string,
 });
 
 router.post("/generate-text", async (req: Request, res: Response) => {
