@@ -23,6 +23,16 @@ html, body, #root {
   overflow: hidden;
 }
 
+.chat-layout {
+  position: absolute; /* or 'fixed' depending on the requirement */
+  bottom: 20px; /* Distance from the bottom */
+  left: 50%; /* Center horizontally */
+  width: 1920px; /* Adjust as needed */
+  height: 800px; /* Adjust as needed */
+  transform: translateX(-50%); /* Adjust for precise centering */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
 .svg-container {
   height: 100vh; /* Full view height, change if you want the container to be taller */
   overflow-y: auto; /* Allows vertical scrolling within this container */
