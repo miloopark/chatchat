@@ -8,7 +8,7 @@ const Home = () => {
 
 
   return (
-    <div className="svg-container">
+    <div className="dashboard-container">
       <Navbar />
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
       <div className='chat-layout'>

@@ -17,6 +17,12 @@ html, body, #root {
   overflow: hidden; /* Prevents scrollbars if not needed */
 }
 
+.dashboard-container {
+  position: relative;
+  height: 100vh; /* Use 100% if you want to be relative to the parent's height */
+  overflow: hidden;
+}
+
 .svg-container {
   height: 100vh; /* Full view height, change if you want the container to be taller */
   overflow-y: auto; /* Allows vertical scrolling within this container */
