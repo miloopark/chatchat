@@ -23,28 +23,22 @@ class Input extends React.Component {
 
   // Call this method when Enter is pressed
   sendToChatGPT = () => {
-    // Here you would handle the API call to ChatGPT
-    // For example:
-     fetch('YOUR_CHATGPT_API_ENDPOINT', {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         // Include other headers as required by your ChatGPT API
-       },
-       body: JSON.stringify({ message: this.state.value })
-     })
-     .then(response => response.json())
-     .then(data => {
-       // Handle the response data
-       console.log(data);
-     })
-     .catch(error => {
-       // Handle any errors
-       console.error('Error:', error);
-     });
-
-    // After sending the message, clear the input
-    this.setState({ value: "" });
+    fetch('api/generate-text', { // Adjust the URL as necessary
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: this.state.value }) // Changed key from `message` to `prompt`
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.text); // Assuming you want to log the generated text
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  
+    this.setState({ value: "" }); // Clear the input after sending the message
   };
 
   handleKeyPress(event) {

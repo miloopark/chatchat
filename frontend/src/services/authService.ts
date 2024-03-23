@@ -1,15 +1,14 @@
-import { 
-  getAuth, 
+import {  
   signInWithPopup, 
   GoogleAuthProvider, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   UserCredential 
 } from 'firebase/auth';
+import { auth } from './firebaseConfig';
 
 // Function to handle sign-in with Google
 export const signInWithGoogle = async (callback: (idToken: string) => void) => {
-  const auth = getAuth();
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
@@ -43,7 +42,6 @@ export const sendUserDataToBackend = async (idToken: string, userData: { email: 
 
 // Function to handle sign-up with email and password
 export const signUpWithEmailPassword = async (email: string, password: string) => {
-  const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const idToken = await userCredential.user.getIdToken();
@@ -62,7 +60,6 @@ export const signUpWithEmailPassword = async (email: string, password: string) =
 
 // Function to handle sign-in with email and password
 export const signInWithEmailPassword = async (email: string, password: string): Promise<UserCredential | undefined> => {
-  const auth = getAuth();
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const idToken = await userCredential.user.getIdToken();

@@ -5,7 +5,7 @@ import TextInput from '../components/Dashboard/TextInput';
 import '../App'; 
 import '../App.css'; 
 
-const Home = () => {
+const Dashboard = () => {
 
 
   return (
@@ -19,4 +19,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Dashboard;
