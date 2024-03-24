@@ -35,7 +35,7 @@ const Login = () => {
                     },
                 });                  
                 if (response.ok) {
-                    navigate('/dashboard'); // Navigate to home on successful storage
+                    navigate('/Dashboard'); // Navigate to home on successful storage
                 } else {
                     console.error('Failed to store user data');
                 }
