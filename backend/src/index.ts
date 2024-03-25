@@ -2,9 +2,10 @@ import * as functions from "firebase-functions";
 import express, {Response} from "express";
 import cors from "cors";
 import textCompletionRoute from "./routes/textCompletion";
-import {storeOrUpdateUser} from "./middleware/storeOrUpdateUser";
+import {storeOrUpdateUser} from "./services/storeOrUpdateUser";
 import {validateFirebaseIdToken,
   AuthRequest} from "./middleware/validateFirebaseToken";
+import { conversationService } from './services/conversationService';
 
 const app = express();
 
@@ -38,6 +39,46 @@ app.post("/api/store-user", validateFirebaseIdToken,
       res.status(403).send("Unauthorized");
     }
   });
+
+  // Route for storing a new message in a conversation
+  app.post('/api/conversation', validateFirebaseIdToken, async (req: AuthRequest, res) => {
+    if (!req.user) {
+      return res.status(403).send('Unauthorized'); // Ensures a response is sent
+    }
+  
+    const { conversationId, message } = req.body;
+    if (!conversationId || !message) {
+      return res.status(400).send('Missing required fields'); // Ensures a response is sent
+    }
+  
+    try {
+      await conversationService.createOrUpdateConversation(conversationId, req.user.uid, message);
+      res.status(200).send({ message: 'Message added to conversation successfully' }); // Sends a response
+    } catch (error) {
+      console.error('Error adding message to conversation:', error);
+      res.status(500).send('Internal Server Error'); // Sends a response
+    }
+  });
+  
+
+  app.get('/api/conversation/:conversationId', validateFirebaseIdToken, async (req: AuthRequest, res) => {
+    if (!req.user) {
+      return res.status(403).send('Unauthorized'); // Ensures a response is sent
+    }
+  
+    const { conversationId } = req.params;
+  
+    try {
+      const conversation = await conversationService.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).send({ message: 'Conversation not found' }); // Ensures a response is sent
+      }
+      res.status(200).json(conversation); // Sends a response
+    } catch (error) {
+      console.error('Error retrieving conversation:', error);
+      res.status(500).send('Internal Server Error'); // Sends a response
+    }
+  });  
 
 // If you have other secure routes, ensure they are mounted correctly
 app.get("/api/secure-data",
