@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from '../components/Dashboard/Sidebar'; // Adjust this path if necessary
+import Sidebar from '../components/Dashboard/Sidebar'; 
 import Navbar from '../components/Navbar';
 import TextInput from '../components/Dashboard/TextInput';
+import Avatar from '../components/Dashboard/Avatar'
 import landingbackdrop from '../assets/landingbackdrop.svg';
 import '../App.css';
 
@@ -15,8 +16,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <Navbar />
-      {/* Hamburger Menu Icon for toggling the sidebar */}
+      {/*<Navbar />*/}
       <IconButton 
         edge="start" 
         color="inherit" 
@@ -27,8 +27,11 @@ const Dashboard = () => {
         <MenuIcon />
       </IconButton>
 
-      {/* Background image */}
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
+
+      <div className='chat-layout'>
+        <Avatar />
+      </div>
 
       <div className='chat-layout'>
         <TextInput />
