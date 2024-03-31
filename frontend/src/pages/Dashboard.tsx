@@ -4,19 +4,28 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from '../components/Dashboard/Sidebar'; 
 import Navbar from '../components/Navbar';
 import TextInput from '../components/Dashboard/TextInput';
+import Transcript from '../components/Dashboard/Transcript';
+import '../components/Dashboard/Transcript.css';
 import Avatar from '../components/Dashboard/Avatar'
 import landingbackdrop from '../assets/landingbackdrop.svg';
 import '../App.css';
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [transcript, setTranscript] = useState('');
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+    // New method to handle the GPT API response
+    const handleResponseReceived = (message) => {
+      setTranscript(message);
+    };
+
   return (
     <div className="dashboard-container">
-      {/*<Navbar />*/}
+      <Navbar />
       <IconButton 
         edge="start" 
         color="inherit" 
@@ -30,11 +39,10 @@ const Dashboard = () => {
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
 
       <div className='chat-layout'>
-        <Avatar />
-      </div>
-
-      <div className='chat-layout'>
-        <TextInput />
+        <TextInput onResponseReceived={handleResponseReceived} />
+        <div className="avatar-container">
+          <Avatar transcript={transcript} />
+        </div>
       </div>
 
       {/* Conditional rendering of Sidebar */}

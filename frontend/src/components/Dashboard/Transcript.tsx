@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+import './Transcript.css'; // Assuming you will define styles similar to the other components
 
-export const Transcript = () => {
+const Transcript = ({ transcript }) => {
   return (
-    <div>
-      Transcript
+    <div className="transcript-container">
+      <p>{transcript}</p>
     </div>
-  )
-}
+  );
+};
+
+export default Transcript;
+

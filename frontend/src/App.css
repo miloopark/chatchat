@@ -33,6 +33,13 @@ html, body, #root {
   z-index: 1000; /* Ensure it's above other content */
 }
 
+.avatar-container {
+  position: relative; /* Or absolute, with top: Xpx; */
+  top: 160px; /* Adjust based on your design */
+  height: 300px; /* Adjust based on your Avatar's size */
+  /* Other styling as needed */
+}
+
 .svg-container {
   height: 100vh; /* Full view height, change if you want the container to be taller */
   overflow-y: auto; /* Allows vertical scrolling within this container */
