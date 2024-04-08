@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import landingbackdrop from '../assets/registration.svg';
+import landingbackdrop from '../assets/landingbackdrop.svg';
 import { signInWithGoogle, signInWithEmailPassword, sendUserDataToBackend } from '../services/authService'; // Removed signUpWithEmailPassword, sendUserDataToBackend as not used here
 import Navbar from '../components/Navbar';
 import '../App.css';
@@ -48,7 +48,8 @@ const Login = () => {
     
     return (
         <div className="svg-container">
-            <img src={landingbackdrop} alt="Main Background" className="fit-backdrop" />
+            <Navbar />
+            <img src={landingbackdrop} alt="Main Background" className="backdrop" />
             <div className="login-container">
                 <h1>Log In</h1>
                 <button onClick={handleGoogleSignIn} className="google-login-button">

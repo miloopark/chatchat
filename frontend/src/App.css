@@ -33,6 +33,11 @@ html, body, #root {
   z-index: 1000; /* Ensure it's above other content */
 }
 
+.svg-container {
+  height: 100vh; /* Full view height, change if you want the container to be taller */
+  overflow-y: auto; /* Allows vertical scrolling within this container */
+}
+
 .top-svg {
   position: relative;
   min-height: 100%; /* Ensure the container is at least the height of the viewport */
@@ -42,19 +47,8 @@ html, body, #root {
   width: 100%; 
   height: auto; /* Auto height for responsive height based on the width */
   overflow-y: auto;
+  display: block;
 }
-
-.fit-backdrop {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  display: block; /* Ensures there are no extra spaces around the image */
-  position: fixed; /* Keeps the image fixed in place */
-  top: 0;
-  left: 0;
-}
-
-
 
 .logo {
   position: absolute;
@@ -65,24 +59,16 @@ html, body, #root {
   scale: 50%;
 }
 
-.svg-container {
-  position: relative; /* This makes it a reference point for absolute positioning */
-  overflow-y: auto;
-  height: 100vh;
-}
-
 .landingtext {
-  position: absolute; 
+  position: absolute;
   font-family: 'Geist', sans-serif;
-  top: 52.5%; /* Adjust based on your design */
-  left: 55%;
+  top: 59%; /* Adjust as needed */
+  left: 59%;
   transform: translate(-50%, -50%);
   text-align: center;
-  scale: 120%;
+  scale: 140%;
   color: black; 
-  z-index: 1;
 }
-
 
 .subtitle {
   top: 50%; /* Adjust as needed */
@@ -119,8 +105,7 @@ html, body, #root {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
-  color: white
+  font-family: 'Geist', sans-serif;
 }
 
 .google-login-button {

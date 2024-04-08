@@ -2,12 +2,13 @@
     box-sizing: border-box;
   }
   
+  
   .field {
     width: 50%;
     height: 7%;
     left: 25%;
     top: 92%;
-    border-radius: 20px;
+    border-radius: 4px;
     position: relative;
     background-color: rgba(255, 255, 255, 0.4);
     transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
@@ -43,7 +44,7 @@
     position: relative;
     padding: 0px 16px;
     border: none;
-    border-radius: 20px;
+    border-radius: 4px;
     font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
     font-size: 16px;
     font-weight: 400;
