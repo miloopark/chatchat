@@ -1,31 +1,46 @@
 import React, { useRef, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, useFBX, Environment } from '@react-three/drei';
-import { AnimationMixer, LoopOnce } from 'three';
+import { useFBX, Environment } from '@react-three/drei';
+import { AnimationMixer, LoopRepeat } from 'three';
 
-const AvatarModel = () => {
-  const gltf = useGLTF("/models/65e7c8a4c27c34a2f1fb4452.glb");
-  const fbxAnimation = useFBX("/animations/wave.fbx");
-  const mixer = useRef(new AnimationMixer(gltf.scene));
+const AvatarModel = ({ isSpeaking }) => {
+  const character = useFBX("/models/character.fbx");
+  const idleAnimation = useFBX("/animations/idle.fbx");
+  const talkv1Animation = useFBX("/animations/talkv1.fbx");
+  
+  const mixer = useRef(new AnimationMixer(character));
+  const idleAction = useRef();
+  const talkAction = useRef();
 
   useEffect(() => {
-    const action = mixer.current.clipAction(fbxAnimation.animations[0]);
-    action.setLoop(LoopOnce);  // Make the animation play only once
-    action.clampWhenFinished = true;  // Keep the final pose after animation
-    action.play();
+    idleAction.current = mixer.current.clipAction(idleAnimation.animations[0]);
+    talkAction.current = mixer.current.clipAction(talkv1Animation.animations[0]);
+    idleAction.current.play();
+
     return () => {
-      action.stop();
-      mixer.current.uncacheAction(action);
+      idleAction.current.stop();
+      talkAction.current.stop();
+      mixer.current.uncacheAction(idleAction.current);
+      mixer.current.uncacheAction(talkAction.current);
     };
-  }, [fbxAnimation, gltf.scene]);
+  }, [mixer, idleAnimation, talkv1Animation]);
+
+  useEffect(() => {
+    if (isSpeaking) {
+      idleAction.current.fadeOut(0.5);
+      talkAction.current.reset().fadeIn(0.5).setLoop(LoopRepeat, Infinity).play();
+    } else {
+      talkAction.current.fadeOut(0.5);
+      idleAction.current.reset().fadeIn(0.5).play();
+    }
+  }, [isSpeaking]);
 
   useFrame((state, delta) => mixer.current.update(delta));
 
-  // Avatar positioning
-  return <primitive object={gltf.scene} scale={[1.75, 1.75, 1.75]} position={[0, -2.5, 0]} />;
+  return <primitive object={character} scale={[0.01, 0.01, 0.01]} position={[0, -0.8, 0]} />;
 };
 
-const Avatar = () => {
+const Avatar = ({ isSpeaking }) => {
   return (
     <div style={{
       height: "92.5%",
@@ -35,9 +50,9 @@ const Avatar = () => {
       justifyContent: "center"
     }}>
       <div style={{
-        width: "1250px",  // Screen scale size
+        width: "1250px",
         height: "auto",
-        aspectRatio: "19 / 10",  // Screen ratio size
+        aspectRatio: "19 / 10",
         backgroundColor: "#ebebeb",
         borderRadius: "15px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -46,10 +61,10 @@ const Avatar = () => {
         justifyContent: "center",
         overflow: "hidden"
       }}>
-        <Canvas camera={{ position: [0, 0.75, 3], fov: 35 }}>
+        <Canvas camera={{ position: [0, 0.75, 2] }}>
           <ambientLight intensity={2} color={'#ffffff'} />
-          <AvatarModel />
-          <Environment preset="apartment" background /> 
+          <AvatarModel isSpeaking={isSpeaking} />
+          <Environment preset="park" background/>
         </Canvas>
       </div>
     </div>

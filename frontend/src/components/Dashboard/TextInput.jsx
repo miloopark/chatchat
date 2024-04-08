@@ -3,7 +3,6 @@ import React from "react";
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import "./TextInput.css";
 
 
@@ -27,8 +26,15 @@ class Input extends React.Component {
   }
 
   speakOutLoud = (text) => {
+    this.props.onSpeakingChange(true); // Add this line
+  
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
+  
+    utterance.onend = () => {
+      this.props.onSpeakingChange(false); // Add this line
+    };
+  
     speechSynthesis.speak(utterance);
   };
 
