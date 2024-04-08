@@ -1,50 +1,44 @@
-// Dashboard.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from '../components/Dashboard/Sidebar';
+import Sidebar from '../components/Dashboard/Sidebar'; // Adjust this path if necessary
+import Navbar from '../components/Navbar';
 import TextInput from '../components/Dashboard/TextInput';
-import Avatar from '../components/Dashboard/Avatar'
 import landingbackdrop from '../assets/landingbackdrop.svg';
 import '../App.css';
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleSpeakingChange = (speaking) => {
-    setIsSpeaking(speaking);
-  };
-
   return (
     <div className="dashboard-container">
+      <Navbar />
+      {/* Hamburger Menu Icon for toggling the sidebar */}
       <IconButton 
         edge="start" 
         color="inherit" 
         aria-label="menu" 
         onClick={toggleSidebar}
-        style={{ position: 'absolute', top: 20, right: 20, zIndex: 1201 }}
+        style={{ position: 'absolute', top: 20, right: 20, zIndex: 1201 }} // Ensure it's above other elements
       >
         <MenuIcon />
       </IconButton>
 
+      {/* Background image */}
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
 
       <div className='chat-layout'>
-        <Avatar isSpeaking={isSpeaking} />
+        <TextInput />
       </div>
 
-      <div className='chat-layout'>
-        <TextInput onSpeakingChange={handleSpeakingChange} />
-      </div>
-
+      {/* Conditional rendering of Sidebar */}
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
     </div>
   );
 }
 
 export default Dashboard;
+

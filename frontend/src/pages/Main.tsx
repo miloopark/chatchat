@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typewriter } from 'react-simple-typewriter';
-import landingbackdrop from '../assets/landing.svg';
+import landingbackdrop from '../assets/landingbackdrop.svg';
 import Navbar from '../components/Navbar';
 import '../App.css';
 
@@ -10,13 +10,14 @@ const Main = () => {
 
     return (
         <div className="svg-container">
+            <Navbar />
             <img src={landingbackdrop} alt="Main Background" className="backdrop" />
             <div className="landingtext">
                 <h1>
-                Learn, Laugh, and Grow <br />
+                    AI you can chat with, <br />
                     <span style={{ color: 'black' }}>
                         <Typewriter
-                            words={['with Every Chat']}
+                            words={['face-to-[a] face']}
                             loop={0}
                             cursor
                             cursorStyle='_'
@@ -27,8 +28,7 @@ const Main = () => {
                     </span>
                 </h1>
                 <div className="subtitle">
-                Our app offers a unique blend of fun and education, where kids can engage with an interactive <br /> character that guides them through educational content.
-                It’s like an imaginary friend who's <br /> always there to teach something new, encourage curiosity, and share laughs along the way!
+                    Customize your avatar and ask them a question, generate a gripping story, or <br /> just talk about your day: the text box is your oyster.
                 </div>
                 <button onClick={() => navigate('/login')} className="get-started-button">
                     Get Started
