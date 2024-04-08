@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings'
+import SurveyComponent from './pages/Questionnaire/SurveyComponent.jsx';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Settings" element={<Settings />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/questionnaire" element={<SurveyComponent />} />
           {/* Define other routes here */}
         </Routes>
       </div>
