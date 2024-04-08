@@ -50,13 +50,14 @@ class Input extends React.Component {
     .then(response => response.json())
     .then(data => {
       console.log(data.text); // Assuming you want to log the generated text
-      this.speakOutLoud(data.text); // Speak out the response
+      this.speakOutLoud(data.text); // Speak out the response\
+      this.props.onResponseReceived(data.text); // Call back
     })
     .catch(error => {
       console.error('Error:', error);
     });
 
-    this.setState({ value: "" }); // Clear the input after sending the message
+    this.setState({ value: "" }); // Clear the input after sending the message    
   };
 
   handleKeyPress(event) {

@@ -67,6 +67,14 @@ const Avatar = ({ isSpeaking }) => {
           <Environment preset="park" background/>
         </Canvas>
       </div>
+      <div style={{ 
+        position: "absolute",
+        bottom: -140, // Adjust these values as necessary
+        width: "60.2%", // This assumes you want the transcript to span the entire width of the Avatar container
+        textAlign: "center", // Center the transcript text if desired
+      }}>
+        <Transcript transcript={transcript} />
+      </div>
     </div>
   );
 };

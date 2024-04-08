@@ -1,9 +1,10 @@
-// Dashboard.jsx
 import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from '../components/Dashboard/Sidebar';
 import TextInput from '../components/Dashboard/TextInput';
+import Transcript from '../components/Dashboard/Transcript';
+import '../components/Dashboard/Transcript.css';
 import Avatar from '../components/Dashboard/Avatar'
 import landingbackdrop from '../assets/landingbackdrop.svg';
 import '../App.css';
