@@ -41,6 +41,7 @@ html, body, #root {
 .backdrop {
   width: 100%; 
   height: auto; /* Auto height for responsive height based on the width */
+  display: block;
   overflow-y: auto;
 }
 
@@ -53,8 +54,6 @@ html, body, #root {
   top: 0;
   left: 0;
 }
-
-
 
 .logo {
   position: absolute;
@@ -143,6 +142,29 @@ html, body, #root {
 .divider span {
   background: #f0f0f0; /* Same as the login container background */
   padding: 0 10px;
+}
+
+.research-container {
+  bottom: 109%;
+  left: 13%;
+  width: 700px;
+  height: 720px;
+  position: relative;
+  font-family: 'Geist', Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 25px;
+  font-style: italic
+  
+}
+
+.research-source {
+  bottom: 185%;
+  left: 58%;
+  width: 450px;
+  height: 850px;
+  position: relative;
+  font-family: 'Geist', Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 25px;
+  font-style: italic;
 }
 
 /* Input field styling */
