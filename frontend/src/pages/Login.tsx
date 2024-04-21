@@ -23,27 +23,39 @@ const Login = () => {
         }
     };
     
-    const handleGoogleSignIn = () => {
-        signInWithGoogle(async (idToken) => {
-            try {
-                // Example API call to your backend
-                const response = await fetch('/api/store-user', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${idToken}`
-                    },
-                });                  
-                if (response.ok) {
-                    navigate('/dashboard'); // Navigate to home on successful storage
+    const handleGoogleSignIn = async () => {
+        const idToken = await signInWithGoogle();
+        if (!idToken) {
+            console.error('Google sign-in failed or was cancelled by the user.');
+            return; // Stop further execution if no token was received
+        }
+    
+        try {
+            sessionStorage.setItem('idToken', idToken);
+            const response = await fetch('/api/store-user', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${idToken}`
+                },
+            });
+    
+            if (response.ok) {
+                const data = await response.json(); // Assuming the backend sends a JSON response
+                if (data.firstTime) {
+                    navigate('/questionnaire'); // Navigate to the questionnaire page for first-time users
                 } else {
-                    console.error('Failed to store user data');
+                    navigate('/dashboard'); // Navigate to the dashboard for returning users
                 }
-            } catch (error) {
-                console.error('Error storing user data:', error);
+            } else {
+                console.error('Failed to store user data: HTTP status ', response.status);
             }
-        });
+        } catch (error) {
+            console.error('Error storing user data:', error);
+        }
     };
+    
+    
       
     
     return (

@@ -75,4 +75,3 @@ export const signInWithEmailPassword = async (email: string, password: string): 
     console.error("Error during Email/Password Sign-In:", error);
   }
 };
-

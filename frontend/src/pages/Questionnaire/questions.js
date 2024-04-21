@@ -11,11 +11,11 @@ export const json = {
         "isRequired": true,
         "choices": [
          {
-          "value": "Item 1",
+          "value": true,
           "text": "I confirm that I am the legal guardian of the user."
          },
          {
-          "value": "Item 2",
+          "value": false,
           "text": "I am not the legal guardian of the user."
          }
         ]
@@ -27,7 +27,7 @@ export const json = {
       "elements": [
        {
         "type": "text",
-        "name": "question4",
+        "name": "question2",
         "title": "What is the user's preferred name?",
         "isRequired": true
        }
@@ -43,15 +43,15 @@ export const json = {
         "isRequired": true,
         "choices": [
          {
-          "value": "Item 1",
+          "value": "Male",
           "text": "Male"
          },
          {
-          "value": "Item 2",
+          "value": "Female",
           "text": "Female"
          },
          {
-          "value": "Item 3",
+          "value": "Other",
           "text": "Other"
          }
         ]
@@ -68,31 +68,31 @@ export const json = {
         "isRequired": true,
         "choices": [
          {
-          "value": "Item 1",
+          "value": "Kindergarten",
           "text": "Kindergarten"
          },
          {
-          "value": "Item 2",
+          "value": "1st Grade",
           "text": "1st Grade"
          },
          {
-          "value": "Item 3",
+          "value": "2nd Grade",
           "text": "2nd Grade"
          },
          {
-          "value": "Item 4",
+          "value": "3rd Grade",
           "text": "3rd Grade"
          },
          {
-          "value": "Item 5",
+          "value": "4th Grade",
           "text": "4th Grade"
          },
          {
-          "value": "Item 6",
+          "value": "5th Grade",
           "text": "5th Grade"
          },
          {
-          "value": "Item 7",
+          "value": "6th Grade",
           "text": "6th Grade"
          }
         ]
@@ -109,19 +109,19 @@ export const json = {
         "isRequired": true,
         "choices": [
          {
-          "value": "Item 1",
+          "value": "Friendly and Casual",
           "text": "Friendly and Casual"
          },
          {
-          "value": "Item 2",
+          "value": "Strict and Formal",
           "text": "Strict and Formal"
          },
          {
-          "value": "Item 3",
+          "value": "Motivational",
           "text": "Motivational"
          },
          {
-          "value": "Item 4",
+          "value": "Humorous",
           "text": "Humorous"
          }
         ]
