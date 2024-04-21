@@ -63,7 +63,7 @@ export const json = {
       "elements": [
        {
         "type": "dropdown",
-        "name": "question2",
+        "name": "question4",
         "title": "Please confirm the user's grade level:",
         "isRequired": true,
         "choices": [
@@ -103,74 +103,8 @@ export const json = {
       "name": "page5",
       "elements": [
        {
-        "type": "tagbox",
-        "name": "question5",
-        "title": "What subjects does the user enjoy the most?",
-        "isRequired": true,
-        "choices": [
-         {
-          "value": "Item 1",
-          "text": "Math"
-         },
-         {
-          "value": "Item 4",
-          "text": "Science"
-         },
-         {
-          "value": "Item 2",
-          "text": "History"
-         },
-         {
-          "value": "Item 3",
-          "text": "English"
-         },
-         {
-          "value": "Item 5",
-          "text": "Writing"
-         }
-        ]
-       }
-      ]
-     },
-     {
-      "name": "page6",
-      "elements": [
-       {
-        "type": "tagbox",
-        "name": "question6",
-        "title": "What subjects does the user least enjoy?",
-        "isRequired": true,
-        "choices": [
-         {
-          "value": "Item 1",
-          "text": "Math"
-         },
-         {
-          "value": "Item 2",
-          "text": "Science"
-         },
-         {
-          "value": "Item 3",
-          "text": "History"
-         },
-         {
-          "value": "Item 4",
-          "text": "English"
-         },
-         {
-          "value": "Item 5",
-          "text": "Writing"
-         }
-        ]
-       }
-      ]
-     },
-     {
-      "name": "page7",
-      "elements": [
-       {
         "type": "dropdown",
-        "name": "question7",
+        "name": "question5",
         "title": "How does the user prefer to receive answers from their personalized avatar?",
         "isRequired": true,
         "choices": [
@@ -195,11 +129,11 @@ export const json = {
       ]
      },
      {
-      "name": "page8",
+      "name": "page6",
       "elements": [
        {
         "type": "text",
-        "name": "question8",
+        "name": "question6",
         "title": "Is there anything else the user would like their avatar to know?"
        }
       ]

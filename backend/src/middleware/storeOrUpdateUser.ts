@@ -6,6 +6,16 @@ export const storeOrUpdateUser = async (userData: {
   displayName?: string;
   photoURL?: string;
   phoneNumber?: string;
+  firstTime?: boolean;
+  surveyData?:{
+    confirmation: boolean;
+    name: string;
+    gender: string;
+    grade: string;
+    learningPref: string;
+    extraPref: string
+  };
+  
 }) => {
   const userRef = db.collection("users").doc(userData.uid);
 
