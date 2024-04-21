@@ -8,14 +8,15 @@ import {
 import { auth } from './firebaseConfig';
 
 // Function to handle sign-in with Google
-export const signInWithGoogle = async (callback: (idToken: string) => void) => {
+export const signInWithGoogle = async (): Promise<string | null> => {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
     const idToken = await result.user.getIdToken(); // Obtain the ID token
-    callback(idToken); // Pass the ID token to the callback
+    return idToken; // Return the ID token directly
   } catch (error) {
     console.error("Error during Google Sign-In:", error);
+    return null; // Return null if an error occurs
   }
 };
 
@@ -75,3 +76,4 @@ export const signInWithEmailPassword = async (email: string, password: string): 
     console.error("Error during Email/Password Sign-In:", error);
   }
 };
+

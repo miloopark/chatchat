@@ -1,119 +1,73 @@
 import React from "react";
+//import { render } from "react-dom";
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import "./TextInput.css";
+
 
 class Input extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: "",
-      error: "",
-      label: "Prompt",
+      active: (props.locked && props.active) || false,
+      value: props.value || "",
+      error: props.error || "",
+      label: props.label || "Prompt",
       listening: false
     };
     this.speechRecognition = null;
   }
 
-  changeValue = (event) => {
-    this.setState({ value: event.target.value, error: "" });
-  };
+  changeValue(event) {
+    const value = event.target.value;
+    this.setState({ value, error: "" });
+  }
 
   speakOutLoud = (text) => {
+    this.props.onSpeakingChange(true); // Add this line
+  
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
+  
+    utterance.onend = () => {
+      this.props.onSpeakingChange(false); // Add this line
+    };
+  
     speechSynthesis.speak(utterance);
   };
 
-  sendToChatGPT = async () => {
-    const { value } = this.state;
-    const { conversationId } = this.props; // This prop should be passed from the parent component
-    const userToken = sessionStorage.getItem('idToken'); // Get the token
-  
-    console.log('Sending message to ChatGPT:', value);
-    console.log('Conversation ID:', conversationId);
+  // Call this method when Enter is pressed
+  sendToChatGPT = () => {
+    fetch('api/generate-text', { // Adjust the URL as necessary
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: this.state.value }) // Changed key from `message` to `prompt`
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.text); // Assuming you want to log the generated text
+      this.speakOutLoud(data.text); // Speak out the response\
+      this.props.onResponseReceived(data.text); // Call back
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 
-    this.setState({ value: "" }); // Clear the input field
-  
-    try {
-      const chatbotResponse = await fetch('api/generate-text', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({ 
-          prompt: value,
-          conversationId: `Yivpf93DQu6PycyNjKOC` })
-      });
-  
-      if (!chatbotResponse.ok) {
-        const errorDetails = await chatbotResponse.text(); // Get error details from the response body
-        console.error(`Error from chatbot API: ${chatbotResponse.status} - ${errorDetails}`);
-        throw new Error(`Chatbot API responded with status: ${chatbotResponse.status}`);
-      }
-  
-      const data = await chatbotResponse.json();
-      const botResponse = data.text;
-      this.speakOutLoud(botResponse);
-      this.props.onResponseReceived(data.text);
-  
-      // Store the user's message
-      const storeUserResponse = await fetch('api/store-message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          conversationId,
-          messageText: value,
-          sender: 'User'
-        })
-      });
-  
-      if (!storeUserResponse.ok) {
-        const errorDetails = await storeUserResponse.text();
-        console.error(`Error storing user message: ${storeUserResponse.status} - ${errorDetails}`);
-        throw new Error(`Error storing user message with status: ${storeUserResponse.status}`);
-      }
-  
-      // Store the chatbot's response
-      const storeBotResponse = await fetch('api/store-message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          conversationId,
-          messageText: botResponse,
-          sender: 'Bot'
-        })
-      });
-  
-      if (!storeBotResponse.ok) {
-        const errorDetails = await storeBotResponse.text();
-        console.error(`Error storing bot response: ${storeBotResponse.status} - ${errorDetails}`);
-        throw new Error(`Error storing bot response with status: ${storeBotResponse.status}`);
-      }
-  
-    } catch (error) {
-      console.error('Error in sendToChatGPT:', error);
-      this.setState({ error: 'Failed to send message. Please try again.' });
-    }
-  };  
-
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.stopListening();
-      this.sendToChatGPT();
-    }
+    this.setState({ value: "" }); // Clear the input after sending the message    
   };
 
+  handleKeyPress(event) {
+    if (event.which === 13 || event.keyCode === 13) {
+      event.preventDefault(); // Prevent the default form submit behavior
+      this.sendToChatGPT(); // Send the message to ChatGPT API
+    }
+  }
+
+  //Microphone
 
   startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
