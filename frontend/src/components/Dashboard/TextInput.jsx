@@ -27,6 +27,7 @@ class Input extends React.Component {
   // Update speakOutLoud function to use ElevenLabs API
   speakOutLoud = (text) => {
     const XI_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY; // Replace with your ElevenLabs API key
+    console.log(XI_API_KEY);
     const VOICE_ID = 'xtxNoADSfR8J98ui46Ny'; // Replace with your chosen voice ID
 
     axios.post(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {

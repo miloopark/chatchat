@@ -55,7 +55,6 @@
   transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
     0.1s padding ease-in-out;
   -webkit-appearance: none;
-  appearance: none;
 }
 
 .field input::-webkit-input-placeholder {
