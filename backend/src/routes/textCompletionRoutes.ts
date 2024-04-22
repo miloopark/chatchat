@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import OpenAI from "openai";
 import "dotenv/config";
 import { fetchMessagesForConversation } from "../services/conversationService";
-import { getUserData } from "../services/userService";
+//import { getUserData } from "../services/userService";
 
 const router = express.Router();
 
