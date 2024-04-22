@@ -1,45 +1,62 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from '../components/Dashboard/Sidebar';
 import TextInput from '../components/Dashboard/TextInput';
-import Transcript from '../components/Dashboard/Transcript';
 import '../components/Dashboard/Transcript.css';
 import Avatar from '../components/Dashboard/Avatar'
 import landingbackdrop from '../assets/dashboardBG.svg';
 import '../App.css';
-import styled from "styled-components"; 
-import MicButton from '../components/Dashboard/MicButton';
+//import styled from "styled-components"; 
+//import MicButton from '../components/Dashboard/MicButton';
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleSpeakingChange = (speaking) => {
     setIsSpeaking(speaking);
   };
 
+  const handleResponseReceived = (message) => {
+    console.log('Received message:', message)
+  };
+
+  const handleSubjectClick = async (subject) => {
+    try {
+        const response = await fetch('/api/conversation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('idToken')}`
+            },
+            body: JSON.stringify({ subject }) // Send the subject to the backend
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Navigate to the conversation page with the retrieved conversation ID
+            navigate(`/conversation/${data.conversationId}`);
+        } else {
+            throw new Error('Failed to get or create conversation');
+        }
+    } catch (error) {
+        console.error('Error handling subject click:', error);
+    }
+};
+
+
   return (
     <div className="dashboard-container">
-      {/* <IconButton 
-        edge="start" 
-        color="inherit" 
-        aria-label="menu" 
-        onClick={toggleSidebar}
-        style={{ position: 'absolute', top: 20, right: 20, zIndex: 1201 }}
-      >
-        <MenuIcon />
-      </IconButton> */}
 
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
 
       <div className='chat-layout'>
-        <Avatar isSpeaking={isSpeaking} />
+        <TextInput onResponseReceived={handleResponseReceived} />
+
+        <div className="avatar-container">
+          <Avatar isSpeaking={isSpeaking} />
+        </div>
+
       </div>
 
       <div className='chat-layout'>
@@ -144,9 +161,109 @@ const Dashboard = () => {
           </Button>
       </div>
 
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '6.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#83ADFFE3', 
+          fontFamily: 'sans-serif'
+          }} onClick={() =>handleSubjectClick('math')}>
+            Math
+          </Button>
+      </div>
+
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '27.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#53C350E3', 
+          fontFamily: 'sans-serif'
+          }} onClick={() =>handleSubjectClick('science')}>
+            Science
+          </Button>
+      </div>
+
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '56.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#FF8383E3', 
+          fontFamily: 'sans-serif'
+          }} onClick={() =>handleSubjectClick('reading')}>
+            Reading
+          </Button>
+      </div>
+
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '78.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#FFAF52E3', 
+          fontFamily: 'sans-serif'
+          }} onClick={() =>handleSubjectClick('history')}>
+            History
+          </Button>
+      </div>
+
     </div>
   );
 }
+
+const buttonStyle = {
+  width: '100%',
+  height: '55%',
+  borderRadius: '15px',
+  fontSize: '35px',
+  backgroundColor: '#83ADFFE3',
+  fontFamily: 'sans-serif'
+};
 
 export default Dashboard;

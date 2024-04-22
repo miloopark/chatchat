@@ -38,23 +38,33 @@ const storeMessage = async (messageData: MessageData) => {
 const router = express.Router();
 
 router.post("/store-message", validateFirebaseIdToken, async (req: AuthRequest, res) => {
-    console.log("Received request to store message:", req.body);
-    if (req.user) {
-        try {
-            // Extract message text from request body
-            const { messageText } = req.body;
-            // Use the UID from the authenticated user to get or create a conversation
-            const conversationId = await getOrCreateConversation(req.user.uid);
-            // Call storeMessage with the structured data
-            await storeMessage({ conversationId, sender: 'User', messageText });
-            res.status(200).send("Message stored successfully");
-        } catch (error) {
-            console.error("Failed to store message:", error);
-            res.status(500).send("Internal Server Error");
-        }
-    } else {
-        res.status(403).send("Unauthorized");
-    }
+  if (req.user) {
+      try {
+          // Check for the presence of required fields in the request body
+          const { messageText } = req.body;
+          if (!messageText) {
+              return res.status(400).send("Missing required fields: messageText and subject are required.");
+          }
+
+          // Use the UID from the authenticated user to get or create a conversation
+          const conversationId = await getOrCreateConversation(req.user.uid, 'math');
+          // Call storeMessage with the structured data
+          await storeMessage({
+            conversationId, 
+            sender: 'User', 
+            messageText
+          });
+
+          return res.status(200).send("Message stored successfully");
+      } catch (error) {
+          console.error("Failed to store message:", error);
+          return res.status(500).send("Internal Server Error");
+      }
+  } else {
+      return res.status(403).send("Unauthorized");
+  }
 });
+
+
 
 export default router;

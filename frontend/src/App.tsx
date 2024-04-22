@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings'
 import SurveyComponent from './pages/Questionnaire/SurveyComponent.jsx';
+import ConversationPage from './pages/Conversation';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/questionnaire" element={<SurveyComponent />} />
+          <Route path="/conversation/:conversationId" element={<ConversationPage />} />
           {/* Define other routes here */}
         </Routes>
       </div>

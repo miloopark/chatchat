@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import axios from 'axios';
 import "./TextInput.css";
+import axios from 'axios'
 
 class Input extends React.Component {
   constructor(props) {
@@ -70,6 +71,7 @@ class Input extends React.Component {
     .catch(error => {
       console.error('Error:', error);
     });
+  };
 
     this.setState({ value: "" });
   };
@@ -140,6 +142,9 @@ class Input extends React.Component {
         <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
             <MicIcon />
           </IconButton>
+        <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
+            <MicIcon />
+          </IconButton>
         <div className="input-button-container">
           <input
             id={1}
@@ -154,6 +159,7 @@ class Input extends React.Component {
           />
           <IconButton
             onClick={this.sendToChatGPT}
+            style={{ color: "#620062", bottom: "40px" }} 
             style={{ color: "#620062", bottom: "40px" }} 
             className="send-button"
           >

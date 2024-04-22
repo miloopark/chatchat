@@ -5,6 +5,7 @@ interface ConversationData {
   lastMessagePreview?: string;
   lastUpdated: Date;
   createdAt: Date;
+  subject: string;
 }
 
 interface MessageData {
@@ -14,38 +15,40 @@ interface MessageData {
     createdAt?: Date;
   }
 
-// Function to either fetch an existing conversation or create a new one
-export const getOrCreateConversation = async (userId: string): Promise<string> => {
-  const conversationsRef = db.collection("conversations");
-  let conversationId = "";
-
-  try {
-    // Attempt to find an existing conversation for the user
-    const snapshot = await conversationsRef.where("userId", "==", userId)
-                                           .orderBy("lastUpdated", "desc")
-                                           .limit(1)
-                                           .get();
-
-    if (!snapshot.empty) {
-      // Use the existing conversation
-      conversationId = snapshot.docs[0].id;
-    } else {
-      // No existing conversation found, create a new one
-      const newConversationData: ConversationData = {
-        userId,
-        lastUpdated: new Date(),
-        createdAt: new Date(),
-      };
-      const newConversationRef = await conversationsRef.add(newConversationData);
-      conversationId = newConversationRef.id;
+// Function to either fetch an existing conversation for a given subject or create a new one
+export const getOrCreateConversation = async (userId: string, subject: string): Promise<string> => {
+    const conversationsRef = db.collection("conversations");
+    let conversationId = "";
+  
+    try {
+      // Attempt to find an existing conversation for the user with the specific subject
+      const snapshot = await conversationsRef.where("userId", "==", userId)
+                                             .where("subject", "==", subject)
+                                             .orderBy("lastUpdated", "desc")
+                                             .limit(1)
+                                             .get();
+  
+      if (!snapshot.empty) {
+        // Use the existing conversation
+        conversationId = snapshot.docs[0].id;
+      } else {
+        // No existing conversation found for that subject, create a new one
+        const newConversationData: ConversationData = {
+          userId,
+          lastUpdated: new Date(),
+          createdAt: new Date(),
+          subject: subject, // Populate the subject field
+        };
+        const newConversationRef = await conversationsRef.add(newConversationData);
+        conversationId = newConversationRef.id;
+      }
+    } catch (error) {
+      console.error("Error in getting or creating a conversation:", error);
+      throw new Error("Failed to get or create a conversation.");
     }
-  } catch (error) {
-    console.error("Error in getting or creating a conversation:", error);
-    throw new Error("Failed to get or create a conversation.");
-  }
-
-  return conversationId;
-};
+  
+    return conversationId;
+  };  
 
 export const fetchConversations = async (userId: string) => {
     const conversationsRef = db.collection("conversations");
@@ -87,4 +90,23 @@ export const fetchMessagesForConversation = async (conversationId: string): Prom
     });
   
     return messages;
+  };
+  
+  // Function to create a new conversation in the Firestore database
+  export const createConversation = async (userId: string, subject: string): Promise<string> => {
+    const conversationsRef = db.collection("conversations");
+    const newConversationData: ConversationData = {
+      userId,
+      lastUpdated: new Date(),
+      createdAt: new Date(),
+      subject: subject,
+    };
+  
+    try {
+      const docRef = await conversationsRef.add(newConversationData);
+      return docRef.id; // Return the new conversation's document ID
+    } catch (error) {
+      console.error("Error creating new conversation in Firestore:", error);
+      throw new Error("Firestore operation failed.");
+    }
   };

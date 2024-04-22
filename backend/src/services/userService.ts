@@ -68,5 +68,5 @@ export const getUserData = async (uid: string) => {
     throw new Error('User not found');
   }
 
-  return doc.data(); // Return the user data
+  return doc.data();
 };
