@@ -125,6 +125,9 @@ class Input extends React.Component {
         <label htmlFor={1} className={error && "error"}>
           {error || label}
         </label>
+        <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
+            <MicIcon />
+        </IconButton>
         <div className="input-button-container">
           <input
             id={1}
@@ -135,13 +138,11 @@ class Input extends React.Component {
             onKeyPress={this.handleKeyPress.bind(this)}
             onFocus={() => !locked && this.setState({ active: true })}
             onBlur={() => !locked && this.setState({ active: false })}
+            style={{bottom: "40px"}}
           />
-          <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
-            <MicIcon />
-          </IconButton>
           <IconButton
             onClick={this.sendToChatGPT}
-            style={{ color: "#620062" }} 
+            style={{ color: "#620062", bottom: "40px" }} 
             className="send-button"
           >
             <SendIcon />

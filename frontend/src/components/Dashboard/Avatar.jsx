@@ -50,8 +50,9 @@ const Avatar = ({ isSpeaking }) => {
       justifyContent: "center"
     }}>
       <div style={{
-        width: "1250px",
-        height: "auto",
+        width: "1450px",
+        height: "675px",
+        marginTop: "-160px",
         aspectRatio: "19 / 10",
         backgroundColor: "#ebebeb",
         borderRadius: "15px",
@@ -61,7 +62,7 @@ const Avatar = ({ isSpeaking }) => {
         justifyContent: "center",
         overflow: "hidden"
       }}>
-        <Canvas camera={{ position: [0, 0.75, 2] }}>
+        <Canvas camera={{ position: [0, 0, 1.5] }}>
           <ambientLight intensity={2} color={'#ffffff'} />
           <AvatarModel isSpeaking={isSpeaking} />
           <Environment preset="park" background/>

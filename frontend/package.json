@@ -31,6 +31,7 @@
     "survey": "^0.3.5",
     "survey-core": "^1.9.139",
     "survey-react-ui": "^1.9.139"
+
   },
   "devDependencies": {
     "@types/react": "^18.2.55",

@@ -3,9 +3,9 @@
   }
   
   .field {
-    width: 50%;
+    width: 70%;
     height: 7%;
-    left: 25%;
+    left: 15.5%;
     top: 92%;
     border-radius: 20px;
     position: relative;
@@ -117,4 +117,10 @@
 
   .send-button {
     right: 10px;
+  }
+
+  .mic-button {
+    left: 47.5%;
+    bottom: 140%;
+    scale: 230%;
   }
