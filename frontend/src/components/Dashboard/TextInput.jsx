@@ -4,7 +4,6 @@ import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import axios from 'axios';
 import "./TextInput.css";
-import axios from 'axios'
 
 class Input extends React.Component {
   constructor(props) {
