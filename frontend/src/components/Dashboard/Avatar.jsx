@@ -50,8 +50,9 @@ const Avatar = ({ isSpeaking }) => {
       justifyContent: "center"
     }}>
       <div style={{
-        width: "1250px",
-        height: "auto",
+        width: "1450px",
+        height: "675px",
+        marginTop: "-160px",
         aspectRatio: "19 / 10",
         backgroundColor: "#ebebeb",
         borderRadius: "15px",

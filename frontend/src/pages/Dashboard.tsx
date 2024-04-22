@@ -52,20 +52,96 @@ const Dashboard = () => {
 
       {/* add on click event to buttons for specialized AI subjects */}
 
-      <div style={{ display: 'flex', position: 'relative', bottom: '48.9%', left: '6.5%', height: '100px', width: '250px', alignItems: 'center', justifyContent: 'center', zIndex: 5000 }}>
-      <Button variant="contained" style={{width: '100%', height: '55%', borderRadius: '15px', fontSize: '35px', backgroundColor: '#83ADFFE3', fontFamily: 'sans-serif'}}>Math</Button>
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '6.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#83ADFFE3', 
+          fontFamily: 'sans-serif'
+          }}>
+            Math
+          </Button>
       </div>
 
-      <div style={{ display: 'flex', position: 'relative', bottom: '59.75%', left: '27.5%', height: '100px', width: '250px', alignItems: 'center', justifyContent: 'center', zIndex: 5000 }}>
-      <Button variant="contained" style={{width: '100%', height: '55%', borderRadius: '15px', fontSize: '35px', backgroundColor: '#53C350E3', fontFamily: 'sans-serif'}}>Science</Button>
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '27.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#53C350E3', 
+          fontFamily: 'sans-serif'
+          }}>
+            Science
+          </Button>
       </div>
 
-      <div style={{ display: 'flex', position: 'relative', bottom: '70.6%', left: '56.5%', height: '100px', width: '250px', alignItems: 'center', justifyContent: 'center', zIndex: 5000 }}>
-      <Button variant="contained" style={{width: '100%', height: '55%', borderRadius: '15px', fontSize: '35px', backgroundColor: '#FF8383E3', fontFamily: 'sans-serif'}}>Reading</Button>
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '56.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#FF8383E3', 
+          fontFamily: 'sans-serif'
+          }}>
+            Reading
+          </Button>
       </div>
 
-      <div style={{ display: 'flex', position: 'relative', bottom: '81.25%', left: '78.5%', height: '100px', width: '250px', alignItems: 'center', justifyContent: 'center', zIndex: 5000 }}>
-      <Button variant="contained" style={{width: '100%', height: '55%', borderRadius: '15px', fontSize: '35px', backgroundColor: '#FFAF52E3', fontFamily: 'sans-serif'}}>History</Button>
+      <div style={{ 
+        display: 'flex', 
+        position: 'fixed', 
+        bottom: '9.5%', 
+        left: '78.5%', 
+        height: '100px', 
+        width: '250px', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 5000 
+        }}>
+        <Button variant="contained" style={{
+          width: '100%', 
+          height: '55%', 
+          borderRadius: '15px', 
+          fontSize: '35px', 
+          backgroundColor: '#FFAF52E3', 
+          fontFamily: 'sans-serif'
+          }}>
+            History
+          </Button>
       </div>
 
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
