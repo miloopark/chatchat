@@ -17,7 +17,7 @@
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "annyang": "^2.6.1",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "firebase": "^10.9.0",
@@ -31,7 +31,6 @@
     "survey": "^0.3.5",
     "survey-core": "^1.9.139",
     "survey-react-ui": "^1.9.139"
-
   },
   "devDependencies": {
     "@types/react": "^18.2.55",

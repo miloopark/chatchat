@@ -1,15 +1,13 @@
 import React from "react";
-//import { render } from "react-dom";
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
+import axios from 'axios';
 import "./TextInput.css";
-
 
 class Input extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       active: (props.locked && props.active) || false,
       value: props.value || "",
@@ -25,49 +23,63 @@ class Input extends React.Component {
     this.setState({ value, error: "" });
   }
 
+  // Update speakOutLoud function to use ElevenLabs API
   speakOutLoud = (text) => {
-    this.props.onSpeakingChange(true); // Add this line
-  
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
-  
-    utterance.onend = () => {
-      this.props.onSpeakingChange(false); // Add this line
-    };
-  
-    speechSynthesis.speak(utterance);
+    const XI_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY; // Replace with your ElevenLabs API key
+    const VOICE_ID = 'xtxNoADSfR8J98ui46Ny'; // Replace with your chosen voice ID
+
+    axios.post(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {
+      text: text,
+      model_id: "eleven_multilingual_v2", // or any other model you prefer
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 0.8
+      }
+    }, {
+      headers: {
+        "xi-api-key": XI_API_KEY,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      responseType: 'blob' // Important to handle binary data
+    }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const audio = new Audio(url);
+      audio.onended = () => {
+        this.props.onSpeakingChange(false);
+      };
+      audio.play();
+      this.props.onSpeakingChange(true);
+    }).catch(error => {
+      console.error('Error:', error);
+    });
   };
 
-  // Call this method when Enter is pressed
   sendToChatGPT = () => {
-    fetch('api/generate-text', { // Adjust the URL as necessary
+    fetch('api/generate-text', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ prompt: this.state.value }) // Changed key from `message` to `prompt`
+      body: JSON.stringify({ prompt: this.state.value })
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data.text); // Assuming you want to log the generated text
-      this.speakOutLoud(data.text); // Speak out the response\
-      this.props.onResponseReceived(data.text); // Call back
+      this.speakOutLoud(data.text);
     })
     .catch(error => {
       console.error('Error:', error);
     });
 
-    this.setState({ value: "" }); // Clear the input after sending the message    
+    this.setState({ value: "" });
   };
 
   handleKeyPress(event) {
     if (event.which === 13 || event.keyCode === 13) {
-      event.preventDefault(); // Prevent the default form submit behavior
-      this.sendToChatGPT(); // Send the message to ChatGPT API
+      event.preventDefault();
+      this.sendToChatGPT();
     }
   }
-
-  //Microphone
 
   startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -102,8 +114,8 @@ class Input extends React.Component {
   stopListening = () => {
     if (this.speechRecognition) {
       this.speechRecognition.stop();
-      this.speechRecognition = null;
       this.setState({ listening: false });
+      this.speechRecognition = null;
     }
   };
 
@@ -125,9 +137,6 @@ class Input extends React.Component {
         <label htmlFor={1} className={error && "error"}>
           {error || label}
         </label>
-        <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
-            <MicIcon />
-        </IconButton>
         <div className="input-button-container">
           <input
             id={1}
@@ -138,11 +147,13 @@ class Input extends React.Component {
             onKeyPress={this.handleKeyPress.bind(this)}
             onFocus={() => !locked && this.setState({ active: true })}
             onBlur={() => !locked && this.setState({ active: false })}
-            style={{bottom: "40px"}}
           />
+          <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
+            <MicIcon />
+          </IconButton>
           <IconButton
             onClick={this.sendToChatGPT}
-            style={{ color: "#620062", bottom: "40px" }} 
+            style={{ color: "#620062" }} 
             className="send-button"
           >
             <SendIcon />
