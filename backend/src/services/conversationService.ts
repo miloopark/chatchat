@@ -110,3 +110,14 @@ export const fetchMessagesForConversation = async (conversationId: string): Prom
       throw new Error("Firestore operation failed.");
     }
   };
+
+  export const fetchConversationDetails = async (conversationId: string) => {
+    const docRef = db.collection('conversations').doc(conversationId);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+        throw new Error('Conversation not found');
+    }
+
+    return doc.data();
+};

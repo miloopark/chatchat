@@ -57,7 +57,7 @@ class Input extends React.Component {
 
   sendToChatGPT = async () => {
     const { value } = this.state;
-    const { conversationId } = this.props; // This prop should be passed from the parent component
+    const { conversationId, subject } = this.props; // This prop should be passed from the parent component
     const userToken = sessionStorage.getItem('idToken'); // Get the token
   
     console.log('Sending message to ChatGPT:', value);
@@ -98,7 +98,8 @@ class Input extends React.Component {
         body: JSON.stringify({
           conversationId,
           messageText: value,
-          sender: 'User'
+          sender: 'User',
+          subject: subject
         })
       });
   
@@ -118,7 +119,8 @@ class Input extends React.Component {
         body: JSON.stringify({
           conversationId,
           messageText: botResponse,
-          sender: 'Bot'
+          sender: 'Bot',
+          subject: subject
         })
       });
   
