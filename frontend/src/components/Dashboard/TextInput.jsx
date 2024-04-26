@@ -57,13 +57,13 @@ class Input extends React.Component {
 
   sendToChatGPT = async () => {
     const { value } = this.state;
-    const { conversationId, subject } = this.props; // This prop should be passed from the parent component
-    const userToken = sessionStorage.getItem('idToken'); // Get the token
+    const { conversationId } = this.props;  // Ensure this prop is passed from the parent component
+    const userToken = sessionStorage.getItem('idToken');  // Get the token
   
     console.log('Sending message to ChatGPT:', value);
     console.log('Conversation ID:', conversationId);
-
-    this.setState({ value: "" }); // Clear the input field
+  
+    this.setState({ value: "" });  // Clear the input field
   
     try {
       const chatbotResponse = await fetch('/api/generate-text', {
@@ -74,11 +74,12 @@ class Input extends React.Component {
         },
         body: JSON.stringify({ 
           prompt: value,
-          conversationId: conversationId })
+          conversationId: conversationId  // Pass the conversationId to the server
+        })
       });
   
       if (!chatbotResponse.ok) {
-        const errorDetails = await chatbotResponse.text(); // Get error details from the response body
+        const errorDetails = await chatbotResponse.text();  // Get error details from the response body
         console.error(`Error from chatbot API: ${chatbotResponse.status} - ${errorDetails}`);
         throw new Error(`Chatbot API responded with status: ${chatbotResponse.status}`);
       }
@@ -98,8 +99,7 @@ class Input extends React.Component {
         body: JSON.stringify({
           conversationId,
           messageText: value,
-          sender: 'User',
-          subject: subject
+          sender: 'User'
         })
       });
   
@@ -119,8 +119,7 @@ class Input extends React.Component {
         body: JSON.stringify({
           conversationId,
           messageText: botResponse,
-          sender: 'Bot',
-          subject: subject
+          sender: 'Bot'
         })
       });
   
@@ -134,7 +133,8 @@ class Input extends React.Component {
       console.error('Error in sendToChatGPT:', error);
       this.setState({ error: 'Failed to send message. Please try again.' });
     }
-  };  
+  };
+  
 
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
