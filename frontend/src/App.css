@@ -45,6 +45,14 @@ html, body, #root {
   overflow-y: auto;
 }
 
+.dash-backdrop {
+  width: 100%; 
+  height: auto; /* Auto height for responsive height based on the width */
+  display: block;
+  overflow-y: auto;
+  transform: scale(2,-2);
+}
+
 .fit-backdrop {
   width: 100vw;
   height: 100vh;
@@ -209,4 +217,8 @@ input[type="checkbox"] {
 
 .create-account-button:disabled {
   background: #9fa8da;
+}
+
+.button-container {
+  z-index: 5000;
 }

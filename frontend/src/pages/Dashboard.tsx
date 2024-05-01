@@ -2,25 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextInput from '../components/Dashboard/TextInput';
-import '../components/Dashboard/Transcript.css';
-import Avatar from '../components/Dashboard/Avatar'
+import Avatar from '../components/Dashboard/Avatar';
 import landingbackdrop from '../assets/dashboardBG.svg';
 import '../App.css';
-//import styled from "styled-components"; 
-//import MicButton from '../components/Dashboard/MicButton';
 
 const Dashboard = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
-  const handleSpeakingChange = (speaking) => {
-    setIsSpeaking(speaking);
-  };
+  // Handles the state change when the app starts/stops speaking
+  const handleSpeakingChange = (speaking) => setIsSpeaking(speaking);
 
-  const handleResponseReceived = (message) => {
-    console.log('Received message:', message)
-  };
+  // Handles the action after receiving a response
+  const handleResponseReceived = (message) => console.log('Received message:', message);
 
+  // Triggers the subject specific conversation
   const handleSubjectClick = async (subject) => {
     try {
         const response = await fetch('/api/conversation', {
@@ -42,136 +38,60 @@ const Dashboard = () => {
     } catch (error) {
         console.error('Error handling subject click:', error);
     }
-};
+  };
 
+  // Previous Design (Kept in da backburner)
+  const subjects = [
+    { name: 'Math', color: '#83ADFFE3' },
+    { name: 'Science', color: '#53C350E3' },
+    { name: 'Reading', color: '#FF8383E3' },
+    { name: 'History', color: '#FFAF52E3' },
+  ];
 
   return (
     <div className="dashboard-container">
-
       <img src={landingbackdrop} alt="Main Background" className="backdrop" />
-
       <div className='chat-layout'>
         <TextInput onResponseReceived={handleResponseReceived} />
-
         <div className="avatar-container">
           <Avatar isSpeaking={isSpeaking} />
         </div>
-
       </div>
-
       <div className='chat-layout'>
         <TextInput onSpeakingChange={handleSpeakingChange} />
       </div>
-
-      {/* <div style={{ display: 'flex', position: 'relative', bottom: '49%', left: '46.5%', height: '100px', width: '100px', alignItems: 'center', justifyContent: 'center', zIndex: 5000 }}>
-        <MicButton style={{}} />
-      </div> */}
-
-      {/* add on click event to buttons for specialized AI subjects */}
-
-      <div style={{ 
-        display: 'flex', 
-        position: 'fixed', 
-        bottom: '9.5%', 
-        left: '6.5%', 
-        height: '100px', 
-        width: '250px', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        zIndex: 5000 
-        }}>
-        <Button variant="contained" style={{
-          width: '100%', 
-          height: '55%', 
-          borderRadius: '15px', 
-          fontSize: '35px', 
-          backgroundColor: '#83ADFFE3', 
-          fontFamily: 'sans-serif'
-          }} onClick={() =>handleSubjectClick('math')}>
-            Math
+      <div className="button-container" style={buttonContainerStyle}>
+        {subjects.map(subject => (
+          <Button
+            key={subject.name}
+            variant="contained"
+            style={{ ...buttonStyle, backgroundColor: subject.color }}
+            onClick={() => handleSubjectClick(subject.name.toLowerCase())}
+          >
+            {subject.name}
           </Button>
+        ))}
       </div>
-
-      <div style={{ 
-        display: 'flex', 
-        position: 'fixed', 
-        bottom: '9.5%', 
-        left: '27.5%', 
-        height: '100px', 
-        width: '250px', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        zIndex: 5000 
-        }}>
-        <Button variant="contained" style={{
-          width: '100%', 
-          height: '55%', 
-          borderRadius: '15px', 
-          fontSize: '35px', 
-          backgroundColor: '#53C350E3', 
-          fontFamily: 'sans-serif'
-          }} onClick={() =>handleSubjectClick('science')}>
-            Science
-          </Button>
-      </div>
-
-      <div style={{ 
-        display: 'flex', 
-        position: 'fixed', 
-        bottom: '9.5%', 
-        left: '56.5%', 
-        height: '100px', 
-        width: '250px', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        zIndex: 5000 
-        }}>
-        <Button variant="contained" style={{
-          width: '100%', 
-          height: '55%', 
-          borderRadius: '15px', 
-          fontSize: '35px', 
-          backgroundColor: '#FF8383E3', 
-          fontFamily: 'sans-serif'
-          }} onClick={() =>handleSubjectClick('reading')}>
-            Reading
-          </Button>
-      </div>
-
-      <div style={{ 
-        display: 'flex', 
-        position: 'fixed', 
-        bottom: '9.5%', 
-        left: '78.5%', 
-        height: '100px', 
-        width: '250px', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        zIndex: 5000 
-        }}>
-        <Button variant="contained" style={{
-          width: '100%', 
-          height: '55%', 
-          borderRadius: '15px', 
-          fontSize: '35px', 
-          backgroundColor: '#FFAF52E3', 
-          fontFamily: 'sans-serif'
-          }} onClick={() =>handleSubjectClick('history')}>
-            History
-          </Button>
-      </div>
-
     </div>
   );
-}
+};
+
+const buttonContainerStyle = {
+  position: 'fixed',
+  bottom: '12.5%',
+  display: 'flex',
+  justifyContent: 'space-around',
+  width: '100%',
+  zIndex: 5000
+};
 
 const buttonStyle = {
-  width: '100%',
-  height: '55%',
+  width: '250px',
+  height: '80px',
   borderRadius: '15px',
   fontSize: '35px',
-  backgroundColor: '#83ADFFE3',
-  fontFamily: 'sans-serif'
+  fontFamily: 'sans-serif',
+  margin: '0 10px', 
 };
 
 export default Dashboard;

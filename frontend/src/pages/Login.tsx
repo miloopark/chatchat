@@ -45,7 +45,7 @@ const Login = () => {
                 if (data.firstTime) {
                     navigate('/questionnaire'); // Navigate to the questionnaire page for first-time users
                 } else {
-                    navigate('/dashboard'); // Navigate to the dashboard for returning users
+                    navigate('/navigation'); // Navigate to the dashboard for returning users
                 }
             } else {
                 console.error('Failed to store user data: HTTP status ', response.status);

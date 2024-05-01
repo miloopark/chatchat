@@ -2,6 +2,7 @@ import React from "react";
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
+import IntIcon from '@mui/icons-material/StopCircle'
 import axios from 'axios';
 import "./TextInput.css";
 
@@ -13,9 +14,11 @@ class Input extends React.Component {
       value: props.value || "",
       error: props.error || "",
       label: props.label || "Prompt",
-      listening: false
+      listening: false,
+      audio: null,
     };
     this.speechRecognition = null;
+    this.abortController = new AbortController();
   }
 
   changeValue(event) {
@@ -23,14 +26,13 @@ class Input extends React.Component {
     this.setState({ value, error: "" });
   }
 
-  // Update speakOutLoud function to use ElevenLabs API
   speakOutLoud = (text) => {
-    const XI_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY; // Replace with your ElevenLabs API key
-    const VOICE_ID = 'xtxNoADSfR8J98ui46Ny'; // Replace with your chosen voice ID
-
+    const XI_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
+    const VOICE_ID = 'xtxNoADSfR8J98ui46Ny';
+  
     axios.post(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {
       text: text,
-      model_id: "eleven_multilingual_v2", // or any other model you prefer
+      model_id: "eleven_multilingual_v2",
       voice_settings: {
         stability: 0.5,
         similarity_boost: 0.8
@@ -41,7 +43,7 @@ class Input extends React.Component {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      responseType: 'blob' // Important to handle binary data
+      responseType: 'blob'
     }).then(response => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const audio = new Audio(url);
@@ -49,11 +51,12 @@ class Input extends React.Component {
         this.props.onSpeakingChange(false);
       };
       audio.play();
+      this.setState({ audio }); 
       this.props.onSpeakingChange(true);
     }).catch(error => {
       console.error('Error:', error);
     });
-  };
+  };  
 
   sendToChatGPT = async () => {
     const { value } = this.state;
@@ -131,7 +134,7 @@ class Input extends React.Component {
   
     } catch (error) {
       console.error('Error in sendToChatGPT:', error);
-      this.setState({ error: 'Failed to send message. Please try again.' });
+      this.setState({ error: 'Say something else!' });
     }
   };
   
@@ -143,6 +146,10 @@ class Input extends React.Component {
       this.sendToChatGPT();
     }
   };
+
+  componentWillUnmount(){
+    this.abortController.abort();
+  }
 
 
   startListening = () => {
@@ -191,6 +198,16 @@ class Input extends React.Component {
     }
   };
 
+  toggleStopResponse = () => {
+    const { audio } = this.state;
+    if (audio) {
+      audio.pause(); // Pauses  audio
+      audio.currentTime = 0; // Optionally reset the audio
+      this.props.onSpeakingChange(false);
+    }
+  };
+  
+
   render() {
     const { active, value, error, label } = this.state;
     const { locked } = this.props;
@@ -201,9 +218,12 @@ class Input extends React.Component {
         <label htmlFor={1} className={error && "error"}>
           {error || label}
         </label>
-        <IconButton onClick={this.toggleListening} style={{ color: "#620062" }} className="mic-button">
+        <IconButton onClick={this.toggleListening} style={{ color: "#620062", backgroundColor: "white", }} className="mic-button">
             <MicIcon />
-          </IconButton>
+        </IconButton>
+        <IconButton onClick={this.toggleStopResponse} style={{ color: "#620062", backgroundColor: "white", }} className="stop-button">
+            <IntIcon />
+        </IconButton>
         <div className="input-button-container">
           <input
             id={1}
@@ -211,7 +231,6 @@ class Input extends React.Component {
             value={value}
             placeholder={label}
             onChange={this.changeValue.bind(this)}
-            onKeyPress={this.handleKeyPress.bind(this)}
             onFocus={() => !locked && this.setState({ active: true })}
             onBlur={() => !locked && this.setState({ active: false })}
             style={{bottom: "40px"}}

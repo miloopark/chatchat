@@ -52,7 +52,7 @@ const Avatar = ({ isSpeaking }) => {
       <div style={{
         width: "1450px",
         height: "675px",
-        marginTop: "-160px",
+        marginTop: "-30px",
         aspectRatio: "19 / 10",
         backgroundColor: "#ebebeb",
         borderRadius: "15px",
