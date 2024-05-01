@@ -42,7 +42,7 @@ const Main = () => {
           Get Started
         </button>
       </div>
-      <div className="research-container">
+      {/* <div className="research-container">
         <span style={{ textDecoration: "underline" }}>
           1. Animated vs. Static Storybooks:{" "}
         </span>
@@ -86,7 +86,7 @@ const Main = () => {
           Study. Front Psychol. 2016 Oct 13;7:1591. doi:
           10.3389/fpsyg.2016.01591. PMID: 27790183; PMCID: PMC5062825.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

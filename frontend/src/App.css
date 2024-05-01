@@ -44,7 +44,7 @@ body,
   width: 100%;
   height: auto; /* Auto height for responsive height based on the width */
   display: block;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .dash-backdrop {
@@ -127,7 +127,7 @@ body,
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: white;
+  color: black;
 }
 
 .google-login-button {
@@ -180,7 +180,7 @@ input[type="firstname"],
 input[type="lastname"],
 input[type="number"],
 input[type="password"] {
-  width: calc(100% - 24px);
+  width: calc(100%);
   margin: 10px 0;
   padding: 12px 16px;
   border: 1px solid #ddd;
