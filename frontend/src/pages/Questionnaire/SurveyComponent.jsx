@@ -27,7 +27,7 @@ function SurveyComponent() {
     
         if (response.ok) {
             console.log('Survey data updated successfully.');
-            navigate('/dashboard');
+            navigate('/navigation');
         } else {
             throw new Error('Failed to update survey data');
         }

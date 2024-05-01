@@ -25,7 +25,9 @@ const ConversationPage = () => {
         if (response.ok) {
           const data = await response.json();
           setConversationDetails(data);
+          console.log('Conversation details:', data.details.subject);
           setIsLoading(false); // Set loading to false when data is fetched
+          speakOutLoud(`Hi, my name is Kevin, your bestfriend! I'm super duper good at ${data.details.subject}! Do you need help with anything?`); // Speak when the component mounts
         } else {
           console.error('Failed to fetch conversation details');
         }
@@ -37,24 +39,21 @@ const ConversationPage = () => {
     fetchConversationDetails();
   }, [conversationId]);
 
-  // Function to initiate speaking
-  const speakOutLoud = (text) => {
-    // Implement the function to call your backend or service here
-    // Example with Axios (Assuming you have an endpoint set up):
-    axios.post('/api/text-to-speech', { text }, { responseType: 'blob' })
-      .then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const audio = new Audio(url);
-        audio.play();
-        setIsSpeaking(true);
-        audio.onended = () => setIsSpeaking(false);
-      })
-      .catch(error => console.error('Error speaking:', error));
-  };
+    // Function to initiate speaking
+    const speakOutLoud = (text) => {
+      // Implement the function to call your backend or service here
+      // Example with Axios (Assuming you have an endpoint set up):
+      axios.post('/api/text-to-speech', { text }, { responseType: 'blob' })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const audio = new Audio(url);
+          audio.play();
+          setIsSpeaking(true);
+          audio.onended = () => setIsSpeaking(false);
+        })
+        .catch(error => console.error('Error speaking:', error));
+    };
 
-  useEffect(() => {
-    speakOutLoud(`Hi, my name is Kevin, your bestfriend! I'm super duper good at ${conversationDetails.details.subject}! Do you need help with anything?`); // Speak when the component mounts
-  }, []); // Empty dependency array means this effect runs only once on mount
 
   return (
     <div className="dashboard-container">
