@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextInput from '../components/Dashboard/TextInput';
@@ -36,45 +37,49 @@ const ConversationPage = () => {
     fetchConversationDetails();
   }, [conversationId]);
 
-  const handleAvatarReady = () => {
-    setIsLoading(false); // Set loading to false when Avatar is ready
+  // Function to initiate speaking
+  const speakOutLoud = (text) => {
+    // Implement the function to call your backend or service here
+    // Example with Axios (Assuming you have an endpoint set up):
+    axios.post('/api/text-to-speech', { text }, { responseType: 'blob' })
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const audio = new Audio(url);
+        audio.play();
+        setIsSpeaking(true);
+        audio.onended = () => setIsSpeaking(false);
+      })
+      .catch(error => console.error('Error speaking:', error));
   };
 
-  const handleResponseReceived = (message) => {
-    console.log('Received message:', message);
-  };
-
-  const handleSpeakingChange = (speaking) => {
-    setIsSpeaking(speaking);
-  };
+  useEffect(() => {
+    speakOutLoud(`Hi, my name is Kevin, your bestfriend! I'm super duper good at ${conversationDetails.details.subject}! Do you need help with anything?`); // Speak when the component mounts
+  }, []); // Empty dependency array means this effect runs only once on mount
 
   return (
     <div className="dashboard-container">
       <img src={landingbackdrop} alt="Conversation Background" className="dash-backdrop" />
       <Button
-        onClick={() => navigate(-1)} // Navigate back
+        onClick={() => navigate(-1)}
         style={{
           position: 'absolute',
           top: '50px',
           left: '40px',
-          zIndex: 5000, // Ensure it is higher than other elements
-          color: 'white' // Ensure the button is visible against backgrounds
+          zIndex: 5000,
+          color: 'white'
         }}
       >
-        <ArrowBackIcon /> {/* Use the ArrowBack icon */}
+        <ArrowBackIcon />
       </Button>
       <div className='chat-layout'>
         {isLoading ? <div>Loading...</div> : (
           <>
-            <TextInput onResponseReceived={handleResponseReceived} conversationId={conversationId} subject={conversationDetails.subject}/>
+            <TextInput onResponseReceived={(message) => console.log('Received message:', message)} conversationId={conversationId} subject={conversationDetails.subject}/>
             <div className="avatar-container">
-              <Avatar isSpeaking={isSpeaking} onReady={handleAvatarReady} />
+              <Avatar isSpeaking={isSpeaking} />
             </div>
           </>
         )}
-      </div>
-      <div className='chat-layout'>
-        <TextInput onSpeakingChange={handleSpeakingChange} onResponseReceived={handleResponseReceived} conversationId={conversationId} subject={conversationDetails.subject}/>
       </div>
     </div>
   );

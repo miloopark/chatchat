@@ -27,36 +27,22 @@ class Input extends React.Component {
   }
 
   speakOutLoud = (text) => {
-    const XI_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY;
-    const VOICE_ID = 'xtxNoADSfR8J98ui46Ny';
-  
-    axios.post(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {
-      text: text,
-      model_id: "eleven_multilingual_v2",
-      voice_settings: {
-        stability: 0.5,
-        similarity_boost: 0.8
-      }
-    }, {
-      headers: {
-        "xi-api-key": XI_API_KEY,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      responseType: 'blob'
+    axios.post('/api/text-to-speech', { text }, {
+        responseType: 'blob' // Ensure axios handles the response as a Blob
     }).then(response => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const audio = new Audio(url);
-      audio.onended = () => {
-        this.props.onSpeakingChange(false);
-      };
-      audio.play();
-      this.setState({ audio }); 
-      this.props.onSpeakingChange(true);
+        const url = window.URL.createObjectURL(response.data);
+        const audio = new Audio(url);
+        audio.onended = () => {
+            this.props.onSpeakingChange(false);
+        };
+        audio.play();
+        this.setState({ audio });
+        this.props.onSpeakingChange(true);
     }).catch(error => {
-      console.error('Error:', error);
+        console.error('Error:', error);
     });
-  };  
+};
+
 
   sendToChatGPT = async () => {
     const { value } = this.state;

@@ -1,37 +1,9 @@
 import express from 'express';
 import { validateFirebaseIdToken, AuthRequest } from '../middleware/validateFirebaseToken';
-import { db } from "../services/firebaseAdmin";
-
-interface MessageData {
-  conversationId: string;
-  sender: 'User' | 'Bot';
-  messageText: string;
-  createdAt?: Date;
-}
+import { storeMessage } from '../services/conversationService';
 
 const router = express.Router();
 
-const storeMessage = async (messageData: MessageData): Promise<string> => {
-  const conversationRef = db.collection("conversations").doc(messageData.conversationId);
-  const messagesRef = conversationRef.collection("messages");
-
-  try {
-    const messageRef = await messagesRef.add({
-      ...messageData,
-      createdAt: new Date(),
-    });
-
-    await conversationRef.set({
-      lastMessagePreview: messageData.messageText,
-      lastUpdated: new Date(),
-    }, { merge: true });
-
-    return messageRef.id;
-  } catch (error) {
-    console.error("Error adding message to Firestore:", error);
-    throw new Error("Firestore operation failed.");
-  }
-};
 
 router.post("/store-message", validateFirebaseIdToken, async (req: AuthRequest, res) => {
   const { conversationId, messageText, sender } = req.body;
