@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import express, {Request, Response} from "express";
 import OpenAI from "openai";
 import "dotenv/config";
-import { fetchMessagesForConversation } from "../services/conversationService";
-//import { getUserData } from "../services/userService";
+import {fetchMessagesForConversation} from "../services/conversationService";
+// import { getUserData } from "../services/userService";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ const openai = new OpenAI({
 });
 
 router.post("/generate-text", async (req: Request, res: Response) => {
-  const { prompt, conversationId } = req.body;
+  const {prompt, conversationId} = req.body;
   console.log("Received conversationId:", conversationId); // Debug log
 
   try {
@@ -21,7 +21,6 @@ router.post("/generate-text", async (req: Request, res: Response) => {
       .map((msg) => `${msg.sender}: ${msg.messageText}`)
       .join("\n");
 
-    // Optional: Use GPT-3.5-turbo (or another suitable model) to summarize the conversation history
     const summaryResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -41,12 +40,13 @@ router.post("/generate-text", async (req: Request, res: Response) => {
     console.log("Conversation summary:", summaryText);
 
     // Combine summarized context with the new prompt
-    const combinedPrompt = `Conversation summary:\n${summaryText}\n\nNew prompt:\n${prompt}`;
+    const combinedPrompt = `Conversation summary:
+      \n${summaryText}\n\nNew prompt:\n${prompt}`;
 
     // Generate response from GPT-4 using the combined prompt
     const response = await openai.chat.completions.create({
       model: "gpt-4",
-      messages: [{ role: "user", content: combinedPrompt }],
+      messages: [{role: "user", content: combinedPrompt}],
       temperature: 1,
       max_tokens: 256,
       top_p: 1,
@@ -54,7 +54,7 @@ router.post("/generate-text", async (req: Request, res: Response) => {
       presence_penalty: 0,
     });
 
-    res.json({ text: response.choices[0].message.content });
+    res.json({text: response.choices[0].message.content});
   } catch (error) {
     console.error("Error in generating text from OpenAI:", error);
     res.status(500).send("Failed to generate text");

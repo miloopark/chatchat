@@ -4,15 +4,15 @@ import axios from "axios";
 const router = express.Router();
 
 router.post("/text-to-speech", async (req, res) => {
-  const { text } = req.body;
+  const {text} = req.body;
   if (!text) {
     // Explicitly return after sending the 400 status
     return res.status(400).send("Text parameter is required");
   }
 
   try {
-    const XI_API_KEY = process.env.VITE_ELEVENLABS_API_KEY; // Ensure this is correctly set in your environment
-    const VOICE_ID = "xtxNoADSfR8J98ui46Ny"; // Confirm this is correct
+    const XI_API_KEY = process.env.VITE_ELEVENLABS_API_KEY;
+    const VOICE_ID = "xtxNoADSfR8J98ui46Ny";
 
     const response = await axios.post(
       `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`,
@@ -28,7 +28,7 @@ router.post("/text-to-speech", async (req, res) => {
         headers: {
           "xi-api-key": XI_API_KEY,
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
         },
         responseType: "stream",
       },

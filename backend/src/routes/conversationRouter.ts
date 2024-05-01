@@ -17,7 +17,7 @@ router.post(
   async (req: AuthRequest, res) => {
     if (req.user) {
       try {
-        const subject = req.body.subject; // Ensure the subject is sent in the request body
+        const subject = req.body.subject;
         if (!subject) {
           return res.status(400).send("Subject is required.");
         }
@@ -47,7 +47,7 @@ router.get(
   async (req: AuthRequest, res) => {
     if (req.user) {
       try {
-        const userId = req.user.uid; // Assuming the user's UID is available from the AuthRequest
+        const userId = req.user.uid;
         const conversations = await fetchConversations(userId);
         res.status(200).json(conversations);
       } catch (error) {
@@ -69,12 +69,12 @@ router.get(
   "/conversation/:id",
   validateFirebaseIdToken,
   async (req: AuthRequest, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
 
     if (req.user) {
       try {
         const details = await fetchConversationDetails(id);
-        res.status(200).json({ conversationId: id, details });
+        res.status(200).json({conversationId: id, details});
       } catch (error) {
         console.error("Failed to fetch conversation details:", error);
         if (

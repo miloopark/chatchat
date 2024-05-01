@@ -3,7 +3,7 @@ import {
   validateFirebaseIdToken,
   AuthRequest,
 } from "../middleware/validateFirebaseToken";
-import { storeMessage } from "../services/conversationService";
+import {storeMessage} from "../services/conversationService";
 
 const router = express.Router();
 
@@ -11,13 +11,13 @@ router.post(
   "/store-message",
   validateFirebaseIdToken,
   async (req: AuthRequest, res) => {
-    const { conversationId, messageText, sender } = req.body;
+    const {conversationId, messageText, sender} = req.body;
 
     if (!conversationId || !messageText || !sender) {
       return res
         .status(400)
         .send(
-          "Missing required fields: conversationId, messageText, and sender are required.",
+          "Missing fields: conversationId, messageText, sender",
         );
     }
 

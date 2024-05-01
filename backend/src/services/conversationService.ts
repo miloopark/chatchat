@@ -1,4 +1,4 @@
-import { db } from "../services/firebaseAdmin";
+import {db} from "../services/firebaseAdmin";
 
 interface ConversationData {
   userId: string;
@@ -10,12 +10,11 @@ interface ConversationData {
 
 interface MessageData {
   conversationId: string; // Unique ID for the conversation
-  sender: "User" | "Bot"; // Indicates if the message is from the User or the Bot
+  sender: "User" | "Bot"; // Indicates if message is from User or Bot
   messageText: string;
   createdAt?: Date;
 }
 
-// Refactored to use createConversationWithInitialMessage if no existing conversation is found
 export const getOrCreateConversation = async (
   userId: string,
   subject: string,
@@ -26,7 +25,6 @@ export const getOrCreateConversation = async (
   let conversationId = "";
 
   try {
-    // Attempt to find an existing conversation for the user with the specific subject
     const snapshot = await conversationsRef
       .where("userId", "==", userId)
       .where("subject", "==", subject)
@@ -38,7 +36,7 @@ export const getOrCreateConversation = async (
       // Use the existing conversation
       conversationId = snapshot.docs[0].id;
     } else {
-      // No existing conversation found; delegate to createConversationWithInitialMessage
+      // No existing conversation found
       conversationId = await createConversationWithInitialMessage(
         userId,
         subject,
@@ -69,17 +67,22 @@ export const createConversationWithInitialMessage = async (
   try {
     const conversationDocRef = await conversationsRef.add(newConversationData);
     const conversationId = conversationDocRef.id;
-    let modelPrompt = `Role and Goal: The GPT is a teacher specialized in teaching ${subject} to kids 
-    in Kindergarten through 6th grade, providing explanations and guidance in natural language suitable 
-    for text-to-speech. It offers concise responses using simpler vocabulary appropriate for young students.
-    Constraints: Responses must be concise to suit text-to-speech constraints and use simple vocabulary 
-    appropriate for young children. Avoid complex language and technical jargon that could confuse young learners.
-    Guidelines: The GPT should engage students in a friendly and supportive manner, encouraging learning and 
-    curiosity about ${subject}. It should aim to clarify concepts and material clearly and effectively, with 
-    an emphasis on understanding rather than rote learning. It should keep content and messages age-appropriate
-    and reject prompts that are inappropriate for children. Clarification: The GPT should ask for clarification 
-    when the user's queries are ambiguous or incomplete, ensuring that the responses are as helpful as possible.
-    Personalization: The GPT should maintain a warm and encouraging tone, mimicking a supportive teacher's style.`;
+    const modelPrompt = `Role and Goal: The GPT is a teacher specialized in 
+    teaching ${subject} to kids in Kindergarten through 6th grade, providing 
+    explanations and guidance in natural language suitable for text-to-speech. 
+    It offers concise responses using simpler vocabulary appropriate for young 
+    students. Constraints: Responses must be concise to suit text-to-speech 
+    constraints and use simple vocabulary appropriate for young children. Avoid 
+    complex language and technical jargon that could confuse young learners. 
+    Guidelines: The GPT should engage students in a friendly and supportive 
+    manner, encouraging learning and curiosity about ${subject}. It should aim 
+    to clarify concepts and material clearly and effectively, with an emphasis 
+    on understanding rather than rote learning. It should keep content and 
+    messages age-appropriate and reject prompts that are inappropriate for 
+    children. Clarification: The GPT should ask for clarification when the 
+    user's queries are ambiguous or incomplete, ensuring that the responses 
+    are as helpful as possible. Personalization: The GPT should maintain a 
+    warm and encouraging tone, mimicking a supportive teacher's style.`;
 
     // Store the initial prompt
     await storeMessage({
@@ -109,9 +112,9 @@ export const fetchConversations = async (userId: string) => {
     return [];
   }
 
-  let conversations: { id: string }[] = [];
+  const conversations: { id: string }[] = [];
   snapshot.forEach((doc) => {
-    conversations.push({ id: doc.id, ...doc.data() });
+    conversations.push({id: doc.id, ...doc.data()});
   });
 
   return conversations;
@@ -120,7 +123,7 @@ export const fetchConversations = async (userId: string) => {
 export const fetchMessagesForConversation = async (
   conversationId: string,
 ): Promise<MessageData[]> => {
-  console.log("Fetching messages for conversationId:", conversationId); // Debug log
+  console.log("Fetching messages for conversationId:", conversationId);
   const messagesRef = db
     .collection("conversations")
     .doc(conversationId)
@@ -139,7 +142,7 @@ export const fetchMessagesForConversation = async (
       conversationId,
       sender: data.sender,
       messageText: data.messageText,
-      createdAt: data.createdAt.toDate(), // Assuming createdAt is stored as a Firestore Timestamp
+      createdAt: data.createdAt.toDate(),
     };
   });
 
@@ -176,7 +179,7 @@ export const storeMessage = async (
         lastMessagePreview: messageData.messageText,
         lastUpdated: new Date(),
       },
-      { merge: true },
+      {merge: true},
     );
 
     return messageRef.id;
