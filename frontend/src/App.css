@@ -1,9 +1,11 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevents scrollbars if not needed */
+  overflow: hidden;
 }
 
 .app-container {
@@ -14,7 +16,7 @@ html, body, #root {
   width: 100%; /* Takes full viewport width */
   margin: 0; /* Removes any default margin */
   padding: 0; /* Removes any default padding */
-  overflow: hidden; /* Prevents scrollbars if not needed */
+  overflow: hidden;
 }
 
 .dashboard-container {
@@ -44,42 +46,61 @@ html, body, #root {
 }
 
 .backdrop {
-  width: 100%; 
+  width: 100%;
   height: auto; /* Auto height for responsive height based on the width */
+  display: block;
   overflow-y: auto;
   display: block;
 }
 
+.dash-backdrop {
+  width: 100%;
+  height: auto; /* Auto height for responsive height based on the width */
+  display: block;
+  overflow-y: auto;
+  transform: scale(2, -2);
+}
+
+.fit-backdrop {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  display: block; /* Ensures there are no extra spaces around the image */
+  position: fixed; /* Keeps the image fixed in place */
+  top: 0;
+  left: 0;
+}
+
 .logo {
   position: absolute;
-  left: 20px; 
-  width: 100px; 
-  height: auto; 
-  z-index: 10; 
+  left: 20px;
+  width: 100px;
+  height: auto;
+  z-index: 10;
   scale: 50%;
 }
 
 .landingtext {
   position: absolute;
-  font-family: 'Geist', sans-serif;
-  top: 59%; /* Adjust as needed */
-  left: 59%;
+  font-family: "Geist", sans-serif;
+  top: 52.5%; /* Adjust based on your design */
+  left: 55%;
   transform: translate(-50%, -50%);
   text-align: center;
-  scale: 140%;
-  color: black; 
+  scale: 120%;
+  color: black;
+  z-index: 1;
 }
 
 .subtitle {
   top: 50%; /* Adjust as needed */
   text-align: center;
   color: grey;
-
 }
 
 .get-started-button {
   padding: 10px 20px;
-  background-color: #CB9FF6; 
+  background-color: #cb9ff6;
   color: white;
   border: none;
   border-radius: 20px;
@@ -97,7 +118,7 @@ html, body, #root {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background: transparent; 
+  background: transparent;
   border-radius: 15px; /* Rounded corners */
   width: 400px;
   border-radius: 10px;
@@ -105,11 +126,12 @@ html, body, #root {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Geist', sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
 }
 
 .google-login-button {
-  background: #4285F4;
+  background: #4285f4;
   color: white;
   padding: 12px 16px;
   border: none;
@@ -117,7 +139,7 @@ html, body, #root {
   margin-bottom: 24px;
   cursor: pointer;
   font-size: 16px; /* Match font size with the design */
-  font-family: 'Geist', sans-serif;
+  font-family: "Geist", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,6 +150,28 @@ html, body, #root {
 .divider span {
   background: #f0f0f0; /* Same as the login container background */
   padding: 0 10px;
+}
+
+.research-container {
+  bottom: 109%;
+  left: 13%;
+  width: 700px;
+  height: 720px;
+  position: relative;
+  font-family: "Geist", Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 25px;
+  font-style: italic;
+}
+
+.research-source {
+  bottom: 185%;
+  left: 58%;
+  width: 450px;
+  height: 850px;
+  position: relative;
+  font-family: "Geist", Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 25px;
+  font-style: italic;
 }
 
 /* Input field styling */
@@ -141,7 +185,7 @@ input[type="password"] {
   padding: 12px 16px;
   border: 1px solid #ddd;
   border-radius: 20px;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 /* Checkbox and label styling */
@@ -149,8 +193,8 @@ label {
   display: flex;
   align-items: center;
   margin: 20px 0;
-  font-size: 14px; 
-  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-family: "Geist", sans-serif;
 }
 
 input[type="checkbox"] {
@@ -158,8 +202,8 @@ input[type="checkbox"] {
 }
 
 .create-account-button {
-  background: #5c6bc0; 
-  font-family: 'Geist', sans-serif;
+  background: #5c6bc0;
+  font-family: "Geist", sans-serif;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -172,4 +216,8 @@ input[type="checkbox"] {
 
 .create-account-button:disabled {
   background: #9fa8da;
+}
+
+.button-container {
+  z-index: 5000;
 }

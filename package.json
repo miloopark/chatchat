@@ -1,11 +1,17 @@
 {
   "dependencies": {
+    "@react-three/drei": "^9.105.1",
+    "@react-three/fiber": "^8.16.1",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",
     "firebase": "^10.9.0",
     "firebase-admin": "^12.0.0",
     "firebase-auth": "^0.1.2",
     "react-router-dom": "^6.22.2",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "react-speech-recognition": "^3.10.0",
+    "styled-components": "^6.1.8",
+    "survey-react-ui": "^1.9.137",
+    "three": "^0.163.0"
   }
 }

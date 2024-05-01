@@ -1,12 +1,18 @@
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import landingbackdrop from "../assets/landingbackdrop.svg";
+import Navbar from "../components/Navbar";
+import "../App.css";
 
-const Settings = () => {
-    return (
-        <div>
-            <h1>Empty Page</h1>
-            <p>This is an empty page.</p>
-        </div>
-    );
+const Main = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="svg-container">
+      <Navbar />
+      <img src={landingbackdrop} alt="Main Background" className="backdrop" />
+    </div>
+  );
 };
 
 export default Settings;
