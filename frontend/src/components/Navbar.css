@@ -32,7 +32,9 @@
   margin-top: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   position: absolute; /* Positioning the menu absolute */
   top: 100%; /* Place it right under the logo container */
   left: 60px; /* Center the menu */
@@ -48,8 +50,10 @@
   color: black;
   text-decoration: none;
   padding: 10px 15px;
-  font-family: 'GeistSans', sans-serif;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  font-family: "GeistSans", sans-serif;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .menu-link:hover {

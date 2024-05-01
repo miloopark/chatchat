@@ -1,12 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import textCompletionRoute from './routes/textCompletionRouter';
-import storeMessageRoute from './routes/messageRouter';
-import storeConversationRoute from './routes/conversationRouter';
-import fetchConversationsRoute from './routes/conversationRouter';
-import userRoutes from './routes/userRouter';
-import textToSpeechRoute from './routes/speechRouter';
-import { validateFirebaseIdToken } from './middleware/validateFirebaseToken';
+import express from "express";
+import cors from "cors";
+import textCompletionRoute from "./routes/textCompletionRouter";
+import storeMessageRoute from "./routes/messageRouter";
+import storeConversationRoute from "./routes/conversationRouter";
+import fetchConversationsRoute from "./routes/conversationRouter";
+import userRoutes from "./routes/userRouter";
+import textToSpeechRoute from "./routes/speechRouter";
+import { validateFirebaseIdToken } from "./middleware/validateFirebaseToken";
 
 const app = express();
 

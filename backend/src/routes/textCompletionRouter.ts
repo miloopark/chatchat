@@ -15,15 +15,21 @@ router.post("/generate-text", async (req: Request, res: Response) => {
   console.log("Received conversationId:", conversationId); // Debug log
 
   try {
-    
     // Fetch previous messages and generate context
     const messages = await fetchMessagesForConversation(conversationId);
-    const conversationHistory = messages.map(msg => `${msg.sender}: ${msg.messageText}`).join('\n');
-    
+    const conversationHistory = messages
+      .map((msg) => `${msg.sender}: ${msg.messageText}`)
+      .join("\n");
+
     // Optional: Use GPT-3.5-turbo (or another suitable model) to summarize the conversation history
     const summaryResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{role: "user", content: `Summarize this conversation:\n${conversationHistory}`}],
+      messages: [
+        {
+          role: "user",
+          content: `Summarize this conversation:\n${conversationHistory}`,
+        },
+      ],
       temperature: 0.7,
       max_tokens: 150,
       top_p: 1.0,
@@ -40,7 +46,7 @@ router.post("/generate-text", async (req: Request, res: Response) => {
     // Generate response from GPT-4 using the combined prompt
     const response = await openai.chat.completions.create({
       model: "gpt-4",
-      messages: [{role: "user", content: combinedPrompt}],
+      messages: [{ role: "user", content: combinedPrompt }],
       temperature: 1,
       max_tokens: 256,
       top_p: 1,
@@ -56,5 +62,3 @@ router.post("/generate-text", async (req: Request, res: Response) => {
 });
 
 export default router;
-
-

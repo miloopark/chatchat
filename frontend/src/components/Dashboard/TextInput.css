@@ -10,7 +10,9 @@
   border-radius: 20px;
   position: relative;
   background-color: rgba(255, 255, 255, 0.4);
-  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+  transition:
+    0.3s background-color ease-in-out,
+    0.3s box-shadow ease-in-out;
 }
 
 .field:hover {
@@ -51,7 +53,9 @@
   background-color: rgba(255, 255, 255, 0);
   outline: none;
   box-shadow: 0px 4px 20px 0px transparent;
-  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+  transition:
+    0.3s background-color ease-in-out,
+    0.3s box-shadow ease-in-out,
     0.1s padding ease-in-out;
   -webkit-appearance: none;
   appearance: none;
@@ -82,8 +86,10 @@
   opacity: 0;
   pointer-events: none;
   transform: translateY(-50%);
-  transition: top 0.3s ease, transform 0.3s ease, font-size 0.3s ease; /* Smooth transition */
-  
+  transition:
+    top 0.3s ease,
+    transform 0.3s ease,
+    font-size 0.3s ease; /* Smooth transition */
 }
 
 .field label {
@@ -91,7 +97,9 @@
   top: 0px; /* Adjust as necessary */
   left: 15px;
   opacity: 0;
-  transition: top 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+  transition:
+    top 0.3s ease,
+    opacity 0.3s ease; /* Smooth transition */
 }
 
 .field.active label {
@@ -108,13 +116,11 @@
   display: flex;
   width: 100%;
   align-items: center;
-  
 }
 
 input {
   flex-grow: 1;
   margin-right: 8px;
-  
 }
 
 .send-button {
@@ -122,28 +128,28 @@ input {
 }
 
 .mic-button {
-  position: absolute; 
-  right: -0.2%;          
-  bottom: 425px;        
-  transform: translateX(-50%); 
-  scale: 1.5;          
-  z-index: 6000;      
-  background-color: #000000; 
-  border-radius: 50%;  
-  padding: 10px;       
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
-  color: white;       
+  position: absolute;
+  right: -0.2%;
+  bottom: 425px;
+  transform: translateX(-50%);
+  scale: 1.5;
+  z-index: 6000;
+  background-color: #000000;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
 .stop-button {
-  position: absolute; 
-  right: 5%;           
-  bottom: 350px;       
-  scale: 1.5;         
-  z-index: 6000;       
-  background-color: #000000; 
-  border-radius: 50%;  
-  padding: 10px;       
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
-  color: white;       
+  position: absolute;
+  right: 5%;
+  bottom: 350px;
+  scale: 1.5;
+  z-index: 6000;
+  background-color: #000000;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  color: white;
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import './Transcript.css'; // Assuming you will define styles similar to the other components
+import React from "react";
+import "./Transcript.css"; // Assuming you will define styles similar to the other components
 
 const Transcript = ({ transcript }) => {
   return (
@@ -10,4 +10,3 @@ const Transcript = ({ transcript }) => {
 };
 
 export default Transcript;
-

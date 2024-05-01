@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export const ChatLogs = () => {
-  return (
-    <div>ChatLogs</div>
-  )
-}
+  return <div>ChatLogs</div>;
+};

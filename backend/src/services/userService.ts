@@ -17,12 +17,14 @@ interface UserData {
   displayName?: string;
   photoURL?: string;
   phoneNumber?: string;
-  firstTime?: boolean;  // This is managed internally and not expected as part of input
+  firstTime?: boolean; // This is managed internally and not expected as part of input
   surveyData?: SurveyData;
 }
 
 // Function to store or update user data
-export const storeOrUpdateUser = async (userData: UserData): Promise<boolean> => {
+export const storeOrUpdateUser = async (
+  userData: UserData,
+): Promise<boolean> => {
   const userRef = db.collection("users").doc(userData.uid);
 
   try {
@@ -49,7 +51,10 @@ export const storeOrUpdateUser = async (userData: UserData): Promise<boolean> =>
 };
 
 // Function to update user's survey data
-export async function updateSurveyData(uid: string, surveyData: SurveyData): Promise<void> {
+export async function updateSurveyData(
+  uid: string,
+  surveyData: SurveyData,
+): Promise<void> {
   const userRef = db.collection("users").doc(uid);
 
   try {
@@ -61,11 +66,11 @@ export async function updateSurveyData(uid: string, surveyData: SurveyData): Pro
 }
 
 export const getUserData = async (uid: string) => {
-  const userRef = db.collection('users').doc(uid);
+  const userRef = db.collection("users").doc(uid);
   const doc = await userRef.get();
 
   if (!doc.exists) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
   return doc.data();
