@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { auth } from "../services/firebaseAdmin";
-import { DecodedIdToken } from "firebase-admin/auth";
+import {Request, Response, NextFunction} from "express";
+import {auth} from "../services/firebaseAdmin";
+import {DecodedIdToken} from "firebase-admin/auth";
 
 interface AuthRequest extends Request {
   user?: DecodedIdToken;
@@ -34,4 +34,4 @@ const validateFirebaseIdToken = async (
   return;
 };
 
-export { validateFirebaseIdToken, AuthRequest };
+export {validateFirebaseIdToken, AuthRequest};
