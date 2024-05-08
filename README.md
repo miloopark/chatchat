@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
-<h1 align="center" style="font-family:verdana">Chat Squared</h1>
+<h1 align="center" style="font-family:verdana">chatsqrd</h1>
   <p align="center">
-    To Aid Learners with Difficulty Grasping Traditional Educational Material by Providing an Immersive, AI-driven Visual Learning Experience.
+    Learn, Laugh, and Grow with Every Chat!
   </p>
 </div>
 
@@ -200,7 +200,7 @@ Thanh Huynh thanh910@bu.edu
 Jiehoon Lee jiehoonn@bu.edu
 Emmeline Chung emmchung@bu.edu
 
-Project Link: [https://github.com/miloopark/chatchat](https://github.com/miloopark/chatchat)
+Project Link: [[https://github.com/miloopark/chatchat](https://github.com/miloopark/chatchat)](https://chatchat-ce029.web.app/)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
