@@ -30,8 +30,8 @@ const Main = () => {
         </h1>
         <div className="subtitle">
           Our app offers a unique blend of fun and education, where kids can
-          engage with an interactive <br /> character that guides them through
-          educational content. It’s like an imaginary friend who's <br /> always
+          engage with an interactive character that guides them through
+          educational content. It’s like an imaginary friend who's always
           there to teach something new, encourage curiosity, and share laughs
           along the way!
         </div>

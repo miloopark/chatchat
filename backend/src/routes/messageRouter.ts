@@ -1,45 +1,22 @@
-import express from "express";
-import {
-  validateFirebaseIdToken,
-  AuthRequest,
-} from "../middleware/validateFirebaseToken";
-import {storeMessage} from "../services/conversationService";
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 
-router.post(
-  "/store-message",
-  validateFirebaseIdToken,
-  async (req: AuthRequest, res) => {
-    const {conversationId, messageText, sender} = req.body;
-
-    if (!conversationId || !messageText || !sender) {
-      return res
-        .status(400)
-        .send(
-          "Missing fields: conversationId, messageText, sender",
-        );
-    }
-
-    try {
-      const messageId = await storeMessage({
-        conversationId,
-        sender,
-        messageText,
-      });
-      return res
-        .status(200)
-        .send(`Message stored successfully with ID: ${messageId}`);
-    } catch (error) {
-      console.error("Failed to store message:", error);
-      // Checking if the error is an instance of Error
-      if (error instanceof Error) {
-        return res.status(500).send(error.message);
-      } else {
-        return res.status(500).send("Internal Server Error");
-      }
-    }
-  },
-);
+router.post('/store-message', (req, res) => {
+  const { message, conversationId, userId } = req.body;
+  
+  if (!message || !conversationId) {
+    return res.status(400).json({ error: 'Message and conversationId are required' });
+  }
+  
+  // Here you would typically store the message in a database
+  console.log(`Storing message in conversation ${conversationId}: ${message}`);
+  
+  res.status(200).json({
+    success: true,
+    messageId: `msg_${Date.now()}`,
+    timestamp: new Date().toISOString()
+  });
+});
 
 export default router;

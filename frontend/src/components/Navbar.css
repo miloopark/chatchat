@@ -1,61 +1,202 @@
 .navbar {
   position: fixed;
-  top: 0px;
-  right: 50px;
+  top: 0;
+  left: 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px 20px;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  transition: all 0.3s;
 }
 
-.logo-container {
-  position: relative;
+.navbar.scrolled {
+  padding: 0.7rem 2rem;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-title {
+  text-decoration: none;
+  display: flex;
   align-items: center;
 }
 
-.logo {
-  transition: opacity 0.3s ease;
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #5c6bc0;
+  margin-left: 0.5rem;
+  font-family: 'Geist', sans-serif;
 }
 
-.logo-container:hover .logo {
-  opacity: 0; /* Make the logo disappear on hover */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 20px;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: #333;
+  transition: all 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 .menu {
-  display: none; /* Start by hiding the menu */
-  list-style: none;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-  position: absolute; /* Positioning the menu absolute */
-  top: 100%; /* Place it right under the logo container */
-  left: 60px; /* Center the menu */
-  transform: translateX(-50%); /* Align the center of the menu with the logo */
+  display: flex;
+  align-items: center;
 }
 
-.logo-container:hover .menu {
-  display: flex; /* Show the menu on hover */
-  opacity: 1; /* Make the menu fully visible */
-}
-
-.menu-link {
-  color: black;
+.menu-item {
+  margin: 0 1rem;
+  color: #555;
   text-decoration: none;
-  padding: 10px 15px;
-  font-family: "GeistSans", sans-serif;
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
+  font-weight: 500;
+  transition: color 0.3s;
+  position: relative;
 }
 
-.menu-link:hover {
-  color: purple;
+.menu-item:hover {
+  color: #5c6bc0;
+}
+
+.menu-item::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #5c6bc0;
+  transition: width 0.3s;
+}
+
+.menu-item:hover::after {
+  width: 100%;
+}
+
+/* Profile-specific navigation styles */
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-link .profile-photo,
+.profile-link .profile-icon {
+  transition: transform 0.3s;
+}
+
+.profile-link:hover .profile-photo,
+.profile-link:hover .profile-icon {
+  transform: scale(1.1);
+}
+
+.highlight-button {
+  background-color: #5c6bc0;
+  color: white !important;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  transition: background-color 0.3s !important;
+}
+
+.highlight-button:hover {
+  background-color: #3f51b5;
+  color: white !important;
+}
+
+.highlight-button::after {
+  display: none;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #d32f2f;
+  color: #d32f2f;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+}
+
+.logout-button:hover {
+  background-color: #ffebee;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  
+  .menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    opacity: 0;
+  }
+  
+  .menu.open {
+    max-height: 500px;
+    opacity: 1;
+  }
+  
+  .menu-item {
+    margin: 0.8rem 0;
+    width: 100%;
+  }
+  
+  .profile-link {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  
+  .logout-button {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+  }
 }

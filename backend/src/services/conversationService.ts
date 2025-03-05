@@ -1,190 +1,241 @@
-import {db} from "../services/firebaseAdmin";
+import admin, { db } from '../config/firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { logger } from '../utils/logger';
+import { 
+  collection, doc, setDoc, getDoc, getDocs, 
+  query, where, orderBy, serverTimestamp, 
+  DocumentReference, addDoc, updateDoc 
+} from 'firebase/firestore';
 
 interface ConversationData {
   userId: string;
-  lastMessagePreview?: string;
-  lastUpdated: Date;
-  createdAt: Date;
   subject: string;
+  lastMessagePreview?: string;
+  lastUpdated: admin.firestore.Timestamp;
+  createdAt: admin.firestore.Timestamp;
 }
 
 interface MessageData {
-  conversationId: string; // Unique ID for the conversation
-  sender: "User" | "Bot"; // Indicates if message is from User or Bot
-  messageText: string;
-  createdAt?: Date;
+  conversationId: string;
+  sender: 'user' | 'assistant';
+  content: string;
+  timestamp: admin.firestore.Timestamp;
 }
 
-export const getOrCreateConversation = async (
-  userId: string,
-  subject: string,
-  initialMessageText?: string,
-  sender: "User" | "Bot" = "Bot",
-): Promise<string> => {
-  const conversationsRef = db.collection("conversations");
-  let conversationId = "";
+const conversationsCollection = db.collection('conversations');
+const messagesCollection = db.collection('messages');
 
+/**
+ * Create a new conversation or get an existing one by subject
+ */
+export async function getOrCreateConversation(userId: string, subject = 'General'): Promise<string> {
   try {
-    const snapshot = await conversationsRef
-      .where("userId", "==", userId)
-      .where("subject", "==", subject)
-      .orderBy("lastUpdated", "desc")
+    // Check if a conversation with this user and subject already exists
+    const existingConversationsSnapshot = await conversationsCollection
+      .where('userId', '==', userId)
+      .where('subject', '==', subject)
+      .orderBy('createdAt', 'desc')
       .limit(1)
       .get();
 
-    if (!snapshot.empty) {
-      // Use the existing conversation
-      conversationId = snapshot.docs[0].id;
-    } else {
-      // No existing conversation found
-      conversationId = await createConversationWithInitialMessage(
-        userId,
-        subject,
-        sender,
-      );
+    // If a conversation exists, return its ID
+    if (!existingConversationsSnapshot.empty) {
+      return existingConversationsSnapshot.docs[0].id;
     }
-  } catch (error) {
-    console.error("Error in getting or creating a conversation:", error);
-    throw new Error("Failed to get or create a conversation.");
-  }
 
-  return conversationId;
-};
-
-export const createConversationWithInitialMessage = async (
-  userId: string,
-  subject: string,
-  sender: "User" | "Bot" = "Bot",
-): Promise<string> => {
-  const conversationsRef = db.collection("conversations");
-  const newConversationData: ConversationData = {
-    userId,
-    lastUpdated: new Date(),
-    createdAt: new Date(),
-    subject: subject,
-  };
-
-  try {
-    const conversationDocRef = await conversationsRef.add(newConversationData);
-    const conversationId = conversationDocRef.id;
-    const modelPrompt = `Role and Goal: The GPT is a teacher specialized in 
-    teaching ${subject} to kids in Kindergarten through 6th grade, providing 
-    explanations and guidance in natural language suitable for text-to-speech. 
-    It offers concise responses using simpler vocabulary appropriate for young 
-    students. Constraints: Responses must be concise to suit text-to-speech 
-    constraints and use simple vocabulary appropriate for young children. Avoid 
-    complex language and technical jargon that could confuse young learners. 
-    Guidelines: The GPT should engage students in a friendly and supportive 
-    manner, encouraging learning and curiosity about ${subject}. It should aim 
-    to clarify concepts and material clearly and effectively, with an emphasis 
-    on understanding rather than rote learning. It should keep content and 
-    messages age-appropriate and reject prompts that are inappropriate for 
-    children. Clarification: The GPT should ask for clarification when the 
-    user's queries are ambiguous or incomplete, ensuring that the responses 
-    are as helpful as possible. Personalization: The GPT should maintain a 
-    warm and encouraging tone, mimicking a supportive teacher's style.`;
-
-    // Store the initial prompt
-    await storeMessage({
-      conversationId: conversationId,
-      sender: sender,
-      messageText: modelPrompt,
-      createdAt: new Date(),
+    // Otherwise, create a new conversation
+    const conversationId = uuidv4();
+    await conversationsCollection.doc(conversationId).set({
+      userId,
+      subject,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+      messageCount: 0
     });
 
-    return conversationId; // Return the new conversation's document ID
+    console.log(`Created new conversation: ${conversationId} for user: ${userId}, subject: ${subject}`);
+    return conversationId;
   } catch (error) {
-    console.error("Error creating new conversation in Firestore:", error);
-    throw new Error("Firestore operation failed.");
+    console.error('Error in getOrCreateConversation:', error);
+    throw error;
   }
-};
+}
 
-//
+/**
+ * Store a message in a conversation
+ */
+export async function storeMessage(
+  conversationId: string, 
+  sender: 'user' | 'assistant', 
+  content: string
+): Promise<string> {
+  try {
+    // Get the conversation to ensure it exists and get the userId
+    const conversationDoc = await conversationsCollection.doc(conversationId).get();
+    if (!conversationDoc.exists) {
+      throw new Error(`Conversation ${conversationId} not found`);
+    }
 
-export const fetchConversations = async (userId: string) => {
-  const conversationsRef = db.collection("conversations");
-  const snapshot = await conversationsRef
-    .where("userId", "==", userId)
-    .orderBy("lastUpdated", "desc")
-    .get();
-  if (snapshot.empty) {
-    console.log("No matching conversations found.");
-    return [];
-  }
-
-  const conversations: { id: string }[] = [];
-  snapshot.forEach((doc) => {
-    conversations.push({id: doc.id, ...doc.data()});
-  });
-
-  return conversations;
-};
-
-export const fetchMessagesForConversation = async (
-  conversationId: string,
-): Promise<MessageData[]> => {
-  console.log("Fetching messages for conversationId:", conversationId);
-  const messagesRef = db
-    .collection("conversations")
-    .doc(conversationId)
-    .collection("messages");
-  const snapshot = await messagesRef.orderBy("createdAt", "asc").get();
-
-  if (snapshot.empty) {
-    console.log(`No messages found for conversation ID ${conversationId}.`);
-    return [];
-  }
-
-  const messages: MessageData[] = snapshot.docs.map((doc) => {
-    const data = doc.data();
-    // Ensure data conforms to MessageData interface; adjust as necessary.
-    return {
+    // Create a message document
+    const messageId = uuidv4();
+    await messagesCollection.doc(messageId).set({
       conversationId,
-      sender: data.sender,
-      messageText: data.messageText,
-      createdAt: data.createdAt.toDate(),
-    };
-  });
-
-  return messages;
-};
-
-export const fetchConversationDetails = async (conversationId: string) => {
-  const docRef = db.collection("conversations").doc(conversationId);
-  const doc = await docRef.get();
-
-  if (!doc.exists) {
-    throw new Error("Conversation not found");
-  }
-
-  return doc.data();
-};
-
-export const storeMessage = async (
-  messageData: MessageData,
-): Promise<string> => {
-  const conversationRef = db
-    .collection("conversations")
-    .doc(messageData.conversationId);
-  const messagesRef = conversationRef.collection("messages");
-
-  try {
-    const messageRef = await messagesRef.add({
-      ...messageData,
-      createdAt: new Date(),
+      sender,
+      content,
+      timestamp: admin.firestore.FieldValue.serverTimestamp()
     });
 
-    await conversationRef.set(
-      {
-        lastMessagePreview: messageData.messageText,
-        lastUpdated: new Date(),
-      },
-      {merge: true},
-    );
+    // Update the conversation's lastUpdated timestamp and message count
+    // Also update the preview with the first 50 characters of the message
+    await conversationsCollection.doc(conversationId).update({
+      lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+      messageCount: admin.firestore.FieldValue.increment(1),
+      lastMessagePreview: content.substring(0, 50) + (content.length > 50 ? '...' : '')
+    });
 
-    return messageRef.id;
+    console.log(`Stored message from ${sender} in conversation: ${conversationId}`);
+    return messageId;
   } catch (error) {
-    console.error("Error adding message to Firestore:", error);
-    throw new Error("Firestore operation failed.");
+    console.error('Error in storeMessage:', error);
+    throw error;
   }
+}
+
+/**
+ * Get all messages for a conversation
+ */
+export async function getConversationHistory(conversationId: string): Promise<any[]> {
+  try {
+    // Check if the conversation exists
+    const conversationDoc = await conversationsCollection.doc(conversationId).get();
+    if (!conversationDoc.exists) {
+      throw new Error('Conversation not found');
+    }
+
+    // Get all messages for this conversation, ordered by timestamp
+    const messagesSnapshot = await messagesCollection
+      .where('conversationId', '==', conversationId)
+      .orderBy('timestamp')
+      .get();
+
+    // Map the messages to a more convenient format
+    const messages = messagesSnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        sender: data.sender,
+        content: data.content,
+        timestamp: data.timestamp ? data.timestamp.toDate().toISOString() : null
+      };
+    });
+
+    return messages;
+  } catch (error) {
+    console.error('Error in getConversationHistory:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get all conversations for a user
+ */
+export async function getUserConversations(userId: string): Promise<any[]> {
+  try {
+    // Get all conversations for this user, ordered by lastUpdated
+    const conversationsSnapshot = await conversationsCollection
+      .where('userId', '==', userId)
+      .orderBy('lastUpdated', 'desc')
+      .get();
+
+    // Map the conversations to a more convenient format
+    const conversations = conversationsSnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        subject: data.subject,
+        lastMessagePreview: data.lastMessagePreview || '',
+        createdAt: data.createdAt ? data.createdAt.toDate().toISOString() : null,
+        updatedAt: data.lastUpdated ? data.lastUpdated.toDate().toISOString() : null,
+        messageCount: data.messageCount || 0
+      };
+    });
+
+    return conversations;
+  } catch (error) {
+    console.error('Error in getUserConversations:', error);
+    throw error;
+  }
+}
+
+/**
+ * Delete a conversation and all its messages
+ */
+export async function deleteConversation(conversationId: string, userId: string): Promise<boolean> {
+  try {
+    // Verify the conversation belongs to this user
+    const conversationDoc = await conversationsCollection.doc(conversationId).get();
+    if (!conversationDoc.exists) {
+      throw new Error('Conversation not found');
+    }
+    
+    const conversationData = conversationDoc.data();
+    if (conversationData?.userId !== userId) {
+      throw new Error('Unauthorized: This conversation does not belong to the current user');
+    }
+
+    // Delete all messages in the conversation first
+    const messagesSnapshot = await messagesCollection
+      .where('conversationId', '==', conversationId)
+      .get();
+    
+    const batch = db.batch();
+    messagesSnapshot.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+    
+    // Then delete the conversation itself
+    batch.delete(conversationsCollection.doc(conversationId));
+    
+    // Commit the batch
+    await batch.commit();
+    
+    console.log(`Deleted conversation ${conversationId} and all its messages`);
+    return true;
+  } catch (error) {
+    console.error('Error in deleteConversation:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get user's questionnaire responses
+ * 
+ * @param {string} userId - The user ID
+ * @returns {Promise<Object|null>} The questionnaire responses or null if not found
+ */
+export async function getUserQuestionnaireResponses(userId: string): Promise<any | null> {
+  try {
+    logger.info(`Getting questionnaire responses for user ${userId}`);
+    
+    const questionnaireRef = doc(db, 'questionnaires', userId);
+    const questionnaireDoc = await getDoc(questionnaireRef);
+    
+    if (questionnaireDoc.exists()) {
+      return questionnaireDoc.data().responses || null;
+    }
+    
+    return null;
+  } catch (error: any) {
+    logger.error(`Error getting questionnaire responses: ${error.message}`);
+    return null;
+  }
+}
+
+export default {
+  getOrCreateConversation,
+  storeMessage,
+  getConversationHistory,
+  getUserConversations,
+  deleteConversation,
+  getUserQuestionnaireResponses
 };

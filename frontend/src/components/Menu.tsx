@@ -1,4 +1,4 @@
-//import React from 'react';
+import React from 'react';
 
 function Menu() {
   return <div>{/* Your component content goes here */}</div>;

@@ -87,4 +87,34 @@ router.get(
   },
 );
 
+// Get user profile
+router.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  
+  // In a real app, fetch user from database
+  res.status(200).json({
+    userId,
+    displayName: 'Test User',
+    email: 'test@example.com',
+    createdAt: new Date().toISOString()
+  });
+});
+
+// Update user profile
+router.put('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  const userData = req.body;
+  
+  if (!userData) {
+    return res.status(400).json({ error: 'No user data provided' });
+  }
+  
+  // In a real app, update user in database
+  res.status(200).json({
+    success: true,
+    userId,
+    ...userData
+  });
+});
+
 export default router;

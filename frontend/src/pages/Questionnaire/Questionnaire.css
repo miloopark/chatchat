@@ -1,0 +1,128 @@
+.questionnaire-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.questionnaire-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.questionnaire-header h1 {
+  color: #5c6bc0;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.questionnaire-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.questionnaire-content {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Survey.js custom styling */
+.sv-root-modern {
+  --sjs-font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --sjs-base-unit: 8px;
+  --sjs-corner-radius: 4px;
+  --sjs-secondary-text-color: #666;
+  --sjs-main-color: #5c6bc0;
+  --sjs-border-color: #ddd;
+
+  /* Header colors */
+  --sjs-header-backcolor: #f9faff;
+  --sjs-header-text-color: #333;
+  
+  /* Page colors */
+  --sjs-page-backcolor: #fff;
+  
+  /* Question colors */
+  --sjs-question-background: #f9faff;
+  --sjs-question-text-color: #333;
+
+  /* Button colors */
+  --sjs-general-backcolor: #5c6bc0;
+  --sjs-general-backcolor-hover: #3f51b5;
+  --sjs-general-backcolor-dark: #3f51b5;
+  --sjs-general-text-color: #fff;
+  --sjs-general-text-color-hover: #fff;
+  --sjs-general-border-color: #5c6bc0;
+}
+
+/* Loading state */
+.questionnaire-loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Error state */
+.questionnaire-error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #d32f2f;
+  background-color: #ffebee;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+/* Make the survey responsive */
+@media (max-width: 768px) {
+  .questionnaire-container {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+  }
+  
+  .questionnaire-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .questionnaire-header p {
+    font-size: 1rem;
+  }
+}
+
+/* Improve the rating elements */
+.sv-rating {
+  display: flex;
+  justify-content: center;
+}
+
+.sv-rating__item {
+  margin: 0 4px;
+}
+
+/* Better feedback for selected items */
+.sv-rating__item--selected {
+  transform: scale(1.1);
+}
+
+/* Improve the tagbox elements */
+.sv_q_tagbox__item {
+  margin: 4px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background-color: #f0f3ff;
+  border: 1px solid #dbe1ff;
+  transition: all 0.2s ease;
+}
+
+.sv_q_tagbox__item--selected {
+  background-color: #5c6bc0;
+  color: white;
+  border-color: #3f51b5;
+} 

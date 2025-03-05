@@ -1,4 +1,4 @@
-import { auth } from "./firebaseConfig";
+import { auth } from "../firebase/config";
 
 const fetchGptResponse = async (promptText: string): Promise<string> => {
   // Check if currentUser exists before trying to call getIdToken
@@ -6,13 +6,13 @@ const fetchGptResponse = async (promptText: string): Promise<string> => {
     throw new Error("User not authenticated");
   }
 
-  const token = await auth.currentUser.getIdToken();
-  const backendUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/generate-text" // Development URL
-      : "/api/generate-text"; // Production URL (assuming same host and port)
-
   try {
+    const token = await auth.currentUser.getIdToken();
+    const backendUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/generate-text" // Development URL
+        : "/api/generate-text"; // Production URL (assuming same host and port)
+
     const response = await fetch(backendUrl, {
       method: "POST",
       headers: {
@@ -23,13 +23,13 @@ const fetchGptResponse = async (promptText: string): Promise<string> => {
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(`Server responded with status: ${response.status}`);
     }
 
     const data = await response.json();
     return data.text;
   } catch (error) {
-    console.error("Error fetching GPT-4 response from backend:", error);
+    console.error("Error fetching response:", error);
     throw error; // Re-throw the error to handle it in the calling component
   }
 };

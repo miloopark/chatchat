@@ -3,20 +3,20 @@
 }
 
 .field {
-  width: 70%;
-  height: 7%;
-  left: 15.5%;
-  top: 92%;
-  border-radius: 20px;
+  width: 100%;
+  height: auto;
   position: relative;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.8);
   transition:
     0.3s background-color ease-in-out,
     0.3s box-shadow ease-in-out;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  padding: 5px;
 }
 
 .field:hover {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.95);
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 }
 
@@ -41,7 +41,7 @@
 
 .field input {
   width: 100%;
-  height: 56px;
+  height: 30px;
   position: relative;
   padding: 0px 16px;
   border: none;
@@ -50,7 +50,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: transparent;
   outline: none;
   box-shadow: 0px 4px 20px 0px transparent;
   transition:
@@ -59,19 +59,21 @@
     0.1s padding ease-in-out;
   -webkit-appearance: none;
   appearance: none;
+  padding-right: 50px; /* Make room for the send button */
+  vertical-align: middle;
 }
 
 .field input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.5);
 }
 .field input::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.5);
 }
 .field input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.5);
 }
 .field input:-moz-placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .field input + label {
@@ -94,12 +96,12 @@
 
 .field label {
   position: absolute;
-  top: 0px; /* Adjust as necessary */
+  top: -18px;
   left: 15px;
-  opacity: 0;
-  transition:
-    top 0.3s ease,
-    opacity 0.3s ease; /* Smooth transition */
+  font-size: 12px;
+  font-weight: 600;
+  color: #620062;
+  transition: all 0.3s ease;
 }
 
 .field.active label {
@@ -116,42 +118,74 @@
   display: flex;
   width: 100%;
   align-items: center;
-}
-
-input {
-  flex-grow: 1;
-  margin-right: 8px;
+  position: relative;
 }
 
 .send-button {
+  position: absolute;
   right: 10px;
-}
-
-.mic-button {
-  position: absolute;
-  right: -0.2%;
-  bottom: 425px;
-  transform: translateX(-50%);
-  scale: 1.5;
-  z-index: 6000;
-  background-color: #000000;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: #620062 !important;
+  width: 34px !important;
+  height: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.3s ease;
   border-radius: 50%;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  color: white;
 }
 
+.send-button:hover {
+  background-color: rgba(33, 150, 243, 0.1) !important;
+}
+
+.send-button svg {
+  color: #2196f3;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+}
+
+.send-button:disabled svg {
+  color: #9e9e9e;
+}
+
+/* Control buttons for the avatar */
+.control-buttons {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 100;
+}
+
+.mic-button, 
 .stop-button {
-  position: absolute;
-  right: 5%;
-  bottom: 350px;
-  scale: 1.5;
-  z-index: 6000;
-  background-color: #000000;
-  border-radius: 50%;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  color: white;
+  background-color: white !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  z-index: 100;
+  scale: 1.0;
+}
+
+.mic-button:hover, 
+.stop-button:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .control-buttons {
+    left: 5px;
+    gap: 10px;
+  }
 }
 
 .chicken-button {
@@ -191,4 +225,111 @@ input {
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   color: white;
+}
+
+/* Enhanced Listening Indicator Styles */
+.listening-indicator {
+  position: relative;
+  padding: 8px 15px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(98, 0, 98, 0.8));
+  border-radius: 20px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  animation: pulse 1.5s infinite alternate;
+  display: flex;
+  align-items: center;
+  max-width: 90%;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.listening-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4081;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1s infinite;
+}
+
+.listening-indicator-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Audio Wave Animation */
+.audio-wave {
+  display: flex;
+  align-items: center;
+  height: 15px;
+  margin-left: 10px;
+}
+
+.audio-wave-bar {
+  width: 3px;
+  margin: 0 2px;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.audio-wave-bar:nth-child(1) {
+  height: 60%;
+  animation: wave 0.7s infinite alternate;
+}
+
+.audio-wave-bar:nth-child(2) {
+  height: 80%;
+  animation: wave 0.9s infinite alternate 0.1s;
+}
+
+.audio-wave-bar:nth-child(3) {
+  height: 100%;
+  animation: wave 0.7s infinite alternate 0.2s;
+}
+
+.audio-wave-bar:nth-child(4) {
+  height: 70%;
+  animation: wave 0.8s infinite alternate 0.15s;
+}
+
+.audio-wave-bar:nth-child(5) {
+  height: 50%;
+  animation: wave 0.6s infinite alternate 0.25s;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes wave {
+  0% {
+    height: 30%;
+  }
+  100% {
+    height: 100%;
+  }
 }

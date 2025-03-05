@@ -5,55 +5,109 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/config";
+import { getCurrentUserData } from "../services/authService";
 
-interface User {
-  email: string;
-  displayName: string;
+interface UserData {
   uid: string;
-  token: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  [key: string]: any; // For additional Firestore data
 }
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
+  currentUser: User | null;
+  userData: UserData | null;
+  loading: boolean;
+  refreshUserData: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  currentUser: null,
+  userData: null,
+  loading: true,
+  refreshUserData: async () => {}
+});
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const useAuth = () => useContext(AuthContext);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // This function can be called after updating user data to refresh the context
+  const refreshUserData = async () => {
+    if (currentUser) {
+      const data = await getCurrentUserData();
+      if (data) {
+        setUserData({
+          uid: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+          ...data
+        });
+      } else {
+        setUserData({
+          uid: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL
+        });
+      }
     }
-  }, []);
-
-  const login = (newUser: User) => {
-    console.log("Logging in user:", newUser);
-    setUser(newUser); // Ensure newUser includes `token`
-    localStorage.setItem("user", JSON.stringify(newUser));
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+      
+      if (user) {
+        try {
+          // Get additional user data from Firestore
+          const data = await getCurrentUserData();
+          if (data) {
+            setUserData({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              ...data
+            });
+          } else {
+            setUserData({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        setUserData(null);
+      }
+      
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const value = {
+    currentUser,
+    userData,
+    loading,
+    refreshUserData
   };
 
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated: !!user, user, login, logout }}
-    >
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within an AuthProvider");
-  return context;
 };

@@ -1,0 +1,1 @@
+<div className="logo">chat^2</div> 

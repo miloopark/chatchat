@@ -1,47 +1,24 @@
-import express from "express";
-import axios from "axios";
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 
-router.post("/text-to-speech", async (req, res) => {
-  const {text} = req.body;
+// Text-to-speech endpoint
+router.post('/text-to-speech', (req, res) => {
+  const { text } = req.body;
+  
   if (!text) {
-    // Explicitly return after sending the 400 status
-    return res.status(400).send("Text parameter is required");
+    return res.status(400).json({ error: 'Text is required' });
   }
-
-  try {
-    const XI_API_KEY = process.env.VITE_ELEVENLABS_API_KEY;
-    const VOICE_ID = "xtxNoADSfR8J98ui46Ny";
-
-    const response = await axios.post(
-      `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`,
-      {
-        text: text,
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.8,
-        },
-      },
-      {
-        headers: {
-          "xi-api-key": XI_API_KEY,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        responseType: "stream",
-      },
-    );
-
-    res.setHeader("Content-Type", "audio/mpeg");
-    response.data.pipe(res);
-    return; // Explicit return after piping the response
-  } catch (error) {
-    console.error("Failed to generate speech:", error);
-    // Explicitly return after sending the 500 status
-    return res.status(500).send("Failed to generate speech");
-  }
+  
+  console.log(`Converting text to speech: ${text.substring(0, 30)}...`);
+  
+  // In a real app, you would call a TTS API here
+  // For now, just return a mock response
+  res.status(200).json({
+    success: true,
+    audioUrl: 'https://example.com/audio.mp3', // Mock URL
+    duration: text.length / 20, // Rough estimate of audio duration in seconds
+  });
 });
 
 export default router;

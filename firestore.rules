@@ -1,10 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Matches any document in the 'users' collection
+    // User profiles - users can read/write only their own data
     match /users/{userId} {
-      allow read: if request.auth != null; // Any authenticated user can read
-      allow write: if request.auth.uid == userId; // Only the user themselves can write
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Questionnaire responses - users can read/write only their own responses
+    match /questionnaires/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Conversations - users can read/write only their own conversations
+    match /conversations/{conversationId} {
+      allow read, write: if request.auth != null && 
+        (resource == null || resource.data.userId == request.auth.uid);
+    }
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

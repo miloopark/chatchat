@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@react-three/drei": "^9.105.1",
     "@react-three/fiber": "^8.16.1",
     "@types/react": "^18.2.67",

@@ -1,0 +1,1 @@
+<p>&copy; {new Date().getFullYear()} chat^2. All rights reserved.</p> 

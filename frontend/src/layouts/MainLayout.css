@@ -1,0 +1,26 @@
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 70px; /* Allow space for fixed navbar */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 60px;
+  }
+}
+
+/* Add extra space when pages have a background image */
+.with-background .main-content {
+  min-height: calc(100vh - 70px);
+} 
