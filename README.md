@@ -1,11 +1,248 @@
 <!-- PROJECT LOGO -->
-<h1 align="center" style="font-family:verdana">Chat Squared</h1>
-  <p align="center">
-    To Aid Learners with Difficulty Grasping Traditional Educational Material by Providing an Immersive, AI-driven Visual Learning Experience.
-  </p>
+<h1 align="center">
+  <img src="frontend/src/assets/logo.svg" alt="Chat Squared Logo" width="200">
+  <br>
+  Chat Squared
+</h1>
+
+<p align="center">
+  <b>An immersive, AI-driven visual learning platform to aid learners who struggle with traditional educational materials.</b>
+</p>
+
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#deployment">Deployment</a> •
+  <a href="#api-integration">API Integration</a> •
+  <a href="#disclaimer">Disclaimer</a> •
+  <a href="#license">License</a> •
+  <a href="#team">Team</a>
+</p>
+
+<div align="center">
+  
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Three.js](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)
+
 </div>
 
-<div>&nbsp;&nbsp;</div>
+---
+
+## Disclaimer
+
+> **Note on Deployment**: This project is not fully deployed to production due to the cost constraints of API usage. The application relies on OpenAI's API and ElevenLabs' speech API, both of which incur usage costs that would require funding for a public deployment. The repository is set up for local development and testing, or for deployment with your own API keys.
+
+## Key Features
+
+- **Voice-Driven Interaction**: Natural conversations with the AI using the browser's Speech Recognition API with robust fallback mechanisms
+- **Personalized Learning**: Customization through questionnaires to tailor the learning experience to individual needs
+- **Rich 3D Visualizations**: Interactive 3D models and animations powered by Three.js to enhance learning
+- **Smooth UI/UX**: Modern interface with animations using Framer Motion and styled-components
+- **Real-time Responses**: Fast, relevant AI-generated content using OpenAI's models
+- **Text-to-Speech**: High-quality voice output using ElevenLabs API with browser fallback options
+- **Cross-browser Compatibility**: Designed to work across modern browsers with graceful degradation
+
+## Tech Stack
+
+### Frontend
+
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Routing**: React Router v6
+- **State Management**: React Context API with custom reducers
+- **UI Components**: Material UI, styled-components
+- **Animations**: Framer Motion
+- **3D Rendering**: Three.js (@react-three/fiber, @react-three/drei)
+- **Speech Integration**: Web Speech API, MediaRecorder API
+
+### Backend
+
+- **Serverless Architecture**: Firebase Cloud Functions
+- **Runtime**: Node.js with Express
+- **Database**: Firebase Firestore
+- **Authentication**: Firebase Authentication
+- **Storage**: Firebase Storage
+- **API Integration**: OpenAI API, ElevenLabs API
+
+### DevOps
+
+- **Version Control**: Git
+- **CI/CD**: GitHub Actions
+- **Hosting**: Firebase Hosting (configured but not deployed due to API costs)
+
+## Architecture
+
+Chat Squared follows a modern serverless architecture:
+
+1. **Frontend Client**: React application served via Firebase Hosting
+2. **API Layer**: Express.js running on Firebase Cloud Functions
+3. **Database**: Firestore document collections for users, conversations, and questionnaire data
+4. **External Services**:
+   - OpenAI API for natural language processing
+   - ElevenLabs API for high-quality speech synthesis
+5. **Authentication**: Firebase Authentication for user management
+
+Key data flows:
+
+- User speech input → Speech Recognition → OpenAI → UI Response
+- AI text responses → ElevenLabs → Audio playback
+- User preferences → Firestore → Personalized experiences
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+- Firebase CLI (`npm install -g firebase-tools`)
+- OpenAI API key
+- ElevenLabs API key (optional, for enhanced speech)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/miloopark/chatchat.git
+   cd chatchat
+   ```
+
+2. **Set up environment variables**
+
+   - Copy the template files and fill in your API keys
+
+   ```bash
+   cp frontend/.env.template frontend/.env
+   cp backend/.env.template backend/.ENV
+   ```
+
+   Required variables:
+
+   - `VITE_FIREBASE_*`: Firebase configuration
+   - `VITE_OPENAI_API_KEY`: Your OpenAI API key
+   - `VITE_ELEVENLABS_API_KEY`: Your ElevenLabs API key (optional)
+
+3. **Install dependencies**
+
+   ```bash
+   # Install root dependencies
+   npm install
+
+   # Install frontend dependencies
+   cd frontend
+   npm install
+
+   # Install backend dependencies
+   cd ../backend
+   npm install
+   ```
+
+4. **Set up Firebase**
+   ```bash
+   firebase login
+   firebase use default
+   ```
+
+### Local Development
+
+1. **Start the backend development server**
+
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+   This will start the Express server on http://localhost:3000
+
+2. **Start the frontend development server**
+
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+
+   This will start the Vite dev server, typically on http://localhost:5173
+
+3. **Use Firebase emulators (optional)**
+   ```bash
+   firebase emulators:start
+   ```
+   This will start emulators for Authentication, Firestore, Functions, and Storage
+
+## Deployment
+
+To deploy the application with your own API keys:
+
+1. **Build the frontend**
+
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+2. **Build the backend**
+
+   ```bash
+   cd backend
+   npm run build
+   ```
+
+3. **Deploy to Firebase**
+   ```bash
+   firebase deploy
+   ```
+
+This will deploy:
+
+- Frontend to Firebase Hosting
+- Backend to Firebase Functions
+- Firestore rules and indexes
+- Storage rules
+
+## API Integration
+
+### OpenAI API
+
+The application uses OpenAI's models for:
+
+- Generating conversational responses
+- Creating personalized learning content
+- Processing user questions
+
+Configure in `backend/.ENV` with your OpenAI API key.
+
+### ElevenLabs API
+
+Used for high-quality text-to-speech:
+
+- Converting AI text responses to natural speech
+- Multiple voice options and languages
+- Fallback to browser's native speech synthesis when unavailable
+
+Configure in `frontend/.env` and `backend/.ENV` with your ElevenLabs API key.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Team
+
+- **Min Sung Park** - Project Lead - [GitHub](https://github.com/miloopark) | [Email](mailto:minpark@bu.edu)
+- **Thanh Huynh** - Backend Developer - [Email](mailto:thanh910@bu.edu)
+- **Jiehoon Lee** - Frontend Developer - [Email](mailto:jiehoonn@bu.edu)
+- **Emmeline Chung** - UX Designer - [Email](mailto:emmchung@bu.edu)
+
+---
+
+<p align="center">
+  Made with ❤️ at Boston University
+</p>
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -93,144 +330,4 @@
 
 ### Check for confilcts
 
-⭐ Don't forget to pull from `dev` and rebase before creating a PR or before merging into `dev`!<br>
-
-1.  Switch out to dev. `git switch dev`
-2.  Pull from dev. `git pull`
-3.  Switch back to you current working branch. `git switch <your branch name>`
-4.  Rebase dev to your branch. `git rebase dev`
-5.  If there are conflicts, resolve them.
-6.  After resolving, force push your changes again.
-    > `git push -f`
-
-> all of your local branches with `git branch` <br>
-> update your local like the remote with `git remote update` <br>
-> all of the branches (local and remote) with `git branch -a` <br>
-
-⚠️ If there is an error doing `pull` try `git config --global pull.rebase true`. <br>
-(I use rebase for default when pulling.)
-
-### Testing the App on a different branch
-
-1. Switch out to the `dev` branch.
-   > `git switch dev`
-2. Update your local sot that its in the same state as remote.
-   > `git remote update`
-3. Switch to the branch you are testing.
-   > `git checkout branchname` > `branchname` should be the name of the branch that you want to checkout to.
-   > you can see the branches by using `git branch -a`.
-4. Pull from the branch once more just to make sure.
-
-### PR convention
-
-⭐ Don't use past tense for git commit, branches, PR.
-
-| branch prefix | use                                                                   |
-| ------------- | --------------------------------------------------------------------- |
-| hotfix        | for quickly fixing critical issues usually with a temporary solution  |
-| fix           | for fixing a bug                                                      |
-| feature       | for adding, removing or modifying a feature                           |
-| refactor      | for modifying the code as in a different style, delete comments, etc. |
-| WIP           | for a work in progress                                                |
-
-<!-- ABOUT THE PROJECT -->
-
-# About The Project
-
-### Built With React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/miloopark/chatchat.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
-
-<!-- USAGE EXAMPLES -->
-
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.md` for more information.
-
-<!-- CONTACT -->
-
-## Contact
-
-Min Sung Park minpark@bu.edu
-Thanh Huynh thanh910@bu.edu
-Jiehoon Lee jiehoonn@bu.edu
-Emmeline Chung emmchung@bu.edu
-
-Project Link: [https://github.com/miloopark/chatchat](https://github.com/miloopark/chatchat)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/miloopark/chatchat.svg?style=for-the-badge
-[contributors-url]: https://github.com/miloopark/chatchat/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/miloopark/chatchat.svg?style=for-the-badge
-[forks-url]: https://github.com/miloopark/chatchat/network/members
-[stars-shield]: https://img.shields.io/github/stars/miloopark/chatchat.svg?style=for-the-badge
-[stars-url]: https://github.com/miloopark/chatchat/stargazers
-[issues-shield]: https://img.shields.io/github/issues/miloopark/chatchat.svg?style=for-the-badge
-[issues-url]: https://github.com/miloopark/chatchat/issues
-[license-shield]: https://img.shields.io/github/license/miloopark/chatchat.svg?style=for-the-badge
-[license-url]: https://github.com/miloopark/chatchat/LICENSE.md
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/miloopark
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+⭐ Don't forget to pull from `dev` and rebase before creating a PR or before merging into `dev`
