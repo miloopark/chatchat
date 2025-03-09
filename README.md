@@ -151,16 +151,29 @@ Key data flows:
 
 ### Local Development
 
-1. **Start the backend development server**
+You have two options for running the backend:
+
+1. **Option 1: Start the simple backend server (recommended for quick setup)**
+
+   ```bash
+   cd backend
+   npm run start:simple
+   # or directly:
+   node direct-start.js
+   ```
+
+   This starts a simpler version of the backend with all functionality in a single file.
+
+2. **Option 2: Start the TypeScript-based development server**
 
    ```bash
    cd backend
    npm run dev
    ```
 
-   This will start the Express server on http://localhost:3000
+   This compiles and runs the TypeScript Express server on http://localhost:3000
 
-2. **Start the frontend development server**
+3. **Start the frontend development server**
 
    ```bash
    cd frontend
@@ -169,7 +182,7 @@ Key data flows:
 
    This will start the Vite dev server, typically on http://localhost:5173
 
-3. **Use Firebase emulators (optional)**
+4. **Use Firebase emulators (optional)**
    ```bash
    firebase emulators:start
    ```
