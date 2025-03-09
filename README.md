@@ -247,8 +247,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Team
 
 - **Min Sung Park** - Project Lead - [GitHub](https://github.com/miloopark) | [Email](mailto:minpark@bu.edu)
-- **Thanh Huynh** - Backend Developer - [Email](mailto:thanh910@bu.edu)
-- **Jiehoon Lee** - Frontend Developer - [Email](mailto:jiehoonn@bu.edu)
+- **Thanh Huynh** - Backend Developer - [GitHub](https://github.com/thanhthuynh) | [Email](mailto:thanh910@bu.edu)
+- **Jiehoon Lee** - Full-Stack Developer - [GitHub](https://github.com/jiehoonn) | [Email](mailto:jiehoonn@bu.edu)
 - **Emmeline Chung** - UX Designer - [Email](mailto:emmchung@bu.edu)
 
 ---
